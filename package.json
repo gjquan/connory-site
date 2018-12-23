@@ -3,5 +3,7 @@
   "version": "0.0.0",
   "dependencies": {},
   "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-htmlmin": "^5.0.1"
   }
 }
