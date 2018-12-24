@@ -1,7 +1,9 @@
 {
   "name": "connory-site",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "skrollr": "^0.6.26"
+  },
   "devDependencies": {
     "gulp": "^4.0.0",
     "gulp-htmlmin": "^5.0.1"

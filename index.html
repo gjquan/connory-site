@@ -32,6 +32,23 @@
                 h1, h2 {
                     text-align: center;
                 }
+                hr { display: none; }
+
+            .bg-container {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                background: no-repeat fixed center/cover url('images/redwoods.jpg');
+                background-color: #1a4e35; /* eucalyptus */
+                background-blend-mode: multiply;
+                z-index: -1;
+            }
+
+            .hr .line {
+                width: 100%;
+                height: 1px;
+                background: #708238; /* olive */
+            }
 
             header {
                 background: no-repeat center/cover url('images/132.jpg');
@@ -70,18 +87,44 @@
                     width: 100%;
                     height: 100%;
                 }
+                nav li:first-child {
+                    font-size: 1.5em;
+                    line-height: 2em;
+                    padding-left: 0;
+                    padding-right: 4em;
+                }
 
-            main {
-                padding: 1em 2em 2em;
+            .content {
+                padding: 0 1em 1em;
+            }
+                .content-inner {
+                    padding: 1em 2em;
+                    max-width: 50em;
+                    margin: 0 auto;
+                    background: rgba(26,78,53,0.50); /* eucalyptus */
+                }
+                section {
+                    position: relative;
+                }
+                    .accent {
+                        position: absolute;
+                        bottom: 0;
+                        right: 0;
+                    }
+
+            footer {
+                font-size: 0.75em;
             }
         </style>
 
     </head>
     <body>
+        <div class="bg-container"></div>
         <header class="hero">
             <h1>Gregory ❤️ Connie</h1>
             <nav>
                 <ul>
+                    <li>#connoryeverafter</li>
                     <li><a href="#wedding">Wedding</a></li>
                     <li><a href="#directions">Directions</a></li>
                     <li><a href="#story">Story</a></li>
@@ -90,65 +133,78 @@
             </nav>
         </header>
 
-        <main>
-            <section id="intro"></section>
-            <section id="wedding">
-                <h2>The Wedding</h2>
-                <h3>#connoryeverafter</h3>
-                <dl>
-                    <dt>Date and Time</dt>
-                    <dd>Sunday, September 29, 2019 late afternoon</dd>
-                    <dt>Ceremony</dt>
-                    <dd>
-                        <address>
-                            Roberts Park
-                            <br />10570 Skyline Blvd, Oakland, CA 94611
-                        </address>
-                    </dd>
-                    <dt>Reception</dt>
-                    <dd>
-                        <address>
-                            The Brazilian Room
-                            <br />Wildcat Canyon Road at Shasta Road
-                            <br />C L Tilden Park 29-002 Dam, Berkeley, CA 94708
-                        </address>
-                    </dd>
-                </dl>
-            </section>
-            <div class="hr">
-                <hr />
-            </div>
-            <section id="directions">
-                <h2>Directions</h2>
-                <div>
-                    <h3>To the Ceremony</h3>
-                    <h4>Ceremony Parking</h4>
+        <div class="content">
+            <div class="content-inner">
+                <main>
+                    <section id="intro"></section>
+                    <section id="wedding">
+                        <h2>The Wedding</h2>
+                        <dl>
+                            <dt>Date and Time</dt>
+                            <dd>Sunday, September 29, 2019 late afternoon</dd>
+                            <dt>Ceremony</dt>
+                            <dd>
+                                <address>
+                                    Roberts Park
+                                    <br />10570 Skyline Blvd, Oakland, CA 94611
+                                </address>
+                            </dd>
+                            <dt>Reception</dt>
+                            <dd>
+                                <address>
+                                    The Brazilian Room
+                                    <br />Wildcat Canyon Road at Shasta Road
+                                    <br />C L Tilden Park 29-002 Dam, Berkeley, CA 94708
+                                </address>
+                            </dd>
+                        </dl>
+                    </section>
+                    <div class="hr">
+                        <hr />
+                        <div class="line"></div>
+                    </div>
+                    <section id="directions">
+                        <h2>Directions</h2>
+                        <div>
+                            <h3>To the Ceremony</h3>
+                            <h4>Ceremony Parking</h4>
+                        </div>
+                        <div>
+                            <h3>To the Reception</h3>
+                            <h4>Reception Parking</h4>
+                        </div>
+                    </section>
+                    <div class="hr">
+                        <hr />
+                        <div class="line"></div>
+                    </div>
+                    <section id="story">
+                        <h2>The Story</h2>
+                        <h3>The Beginning</h3>
+                        <h3>The Proposal</h3>
+                    </section>
+                    <div class="hr">
+                        <hr />
+                        <div class="line"></div>
+                    </div>
+                    <section id="contact">
+                        <h2>Contact</h2>
+                        <p>Gifts, food, contact, etc.</p>
+                    </section>
+                </main>
+                <div class="hr">
+                    <hr />
+                    <div class="line"></div>
                 </div>
-                <div>
-                    <h3>To the Reception</h3>
-                    <h4>Reception Parking</h4>
-                </div>
-            </section>
-            <div class="hr">
-                <hr />
-            </div>
-            <section id="story">
-                <h2>The Story</h2>
-                <h3>The Beginning</h3>
-                <h3>The Proposal</h3>
-            </section>
-            <div class="hr">
-                <hr />
-            </div>
-            <section id="contact">
-                <h2>Contact</h2>
-                <p>Gifts, food, contact, etc.</p>
-            </section>
-        </main>
-        <footer>
+                <footer>
+                    <div class="credits">
+                        <p> Photos: <a href="https://studiokibo.com/" target="_blank">Studio Kibo</a>, <a href="https://en.wikipedia.org/wiki/Prairie_Creek_Redwoods_State_Park#/media/File:Prairie_Creek_Redwoods_State_Park.jpg" target="_blank">Wikimedia</a></p>
+                    </div>
+                </footer>
+            </div> <!-- /.content-inner -->
+        </div> <!-- /.content -->
 
-        </footer>
-
+        <script src="node_modules/skrollr/dist/skrollr.min.js"></script>
         <script>
             document.documentElement.classList.remove('no-js');
         </script>
