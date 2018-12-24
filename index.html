@@ -61,8 +61,11 @@
 
             header {
                 background: no-repeat center/cover url('images/132.jpg');
+                position: absolute;
+                top: 0;
                 width: 100%;
                 min-height: 100%;
+                z-index: 3;
             }
                 .hero h1 {
                     position: absolute;
@@ -109,8 +112,17 @@
                 }
                     nav li:first-child a { color: #fffff0; /* ivory */ }
 
+            .header-spacer {
+                width: 100%;
+                min-height: 100%;
+            }
+            .sticky-nav header {
+                position: fixed;
+            }
+
             .content {
                 padding: 0 1em 1em;
+                z-index: 2;
             }
                 .content-inner {
                     padding: 1em 2em;
@@ -167,11 +179,12 @@
 
     </head>
     <body>
-        <header class="hero" id="top">
+        <div class="header-spacer"></div>
+        <header class="hero" id="header">
             <h1 class="text-stylized">Gregory <span class="icon icon-heart">❤️</span> Connie</h1>
-            <nav>
+            <nav id="nav">
                 <ul>
-                    <li class="text-stylized"><a href="#top">#connoryeverafter</a></li>
+                    <li class="text-stylized"><a href="#header">#connoryeverafter</a></li>
                     <li><a href="#wedding">Wedding</a></li>
                     <li><a href="#directions">Directions</a></li>
                     <li><a href="#story">Story</a></li>
@@ -310,6 +323,20 @@
         <script src="node_modules/skrollr/dist/skrollr.min.js"></script>
         <script>
             document.documentElement.classList.remove('no-js');
+
+            // TODO: fix menu sticky jank on mobile
+            // var header = document.getElementById('header');
+            // var nav = document.getElementById('nav');
+            // var CLASS_NAME_STICKY = 'sticky-nav';
+            // window.addEventListener('scroll', function() {
+            //     if (window.pageYOffset > nav.offsetTop) {
+            //         document.body.classList.add(CLASS_NAME_STICKY);
+            //         header.style.top = (nav.offsetHeight - header.offsetHeight) + 'px';
+            //     } else {
+            //         document.body.classList.remove(CLASS_NAME_STICKY);
+            //         header.style.top = 0;
+            //     }
+            // });
 
             // TODO: maps links for non-Apple devices
         </script>
