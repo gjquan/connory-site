@@ -27,7 +27,9 @@
                 h1, h2 { text-align: center; }
                 h2 { font-family: 'Rancho'; font-size: 2em; }
                 hr { display: none; }
+                img { max-width: 100%; }
                 .icon { display: inline-block; }
+                .text-center { text-align: center; }
                 .text-stylized {
                     font-family: 'Amatic SC', cursive;
                     font-weight: 700;
@@ -121,11 +123,11 @@
             }
 
             .content {
-                padding: 0 1em 1em;
+                padding: 0 1.5em 1em;
                 z-index: 2;
             }
                 .content-inner {
-                    padding: 1em 2em;
+                    padding: 1em 1.5em;
                     max-width: 50em;
                     margin: 0 auto;
                     background: rgba(26,78,53,0.70); /* eucalyptus */
@@ -234,6 +236,7 @@
                         <h2>Directions</h2>
 
                         <h3>To the Ceremony</h3>
+                            <h4 class="text-center"><a href="//maps.apple.com/?q=Roberts+Regional+Recreation+Area,10570+Skyline+Blvd,Oakland,California,94619">Roberts Park</a></h4>
                             <h4><em>From Highway 13 southbound</em></h4>
                             <ol>
                                 <li>Take the Joaquin Miller Road / Lincoln Avenue exit.</li>
@@ -259,6 +262,7 @@
                         </div>
 
                         <h3>To the Reception</h3>
+                            <h4 class="text-center"><a href="//maps.apple.com/?q=Brazilian+Room&ll=37.893597,-122.245405">The Brazilian Room</a></h4>
                             <h4><em>From Roberts Park</em></h4>
                             <ol>
                                 <li>Turn left onto Skyline Boulevard.</li>
@@ -285,7 +289,18 @@
                     <section id="story">
                         <h2>The Story</h2>
                         <h3>The Beginning</h3>
+                            <p>Coming soon!</p>
+
+                        <div class="hr width-30">
+                            <hr />
+                            <div class="line"></div>
+                        </div>
+
                         <h3>The Proposal</h3>
+                            <p>Coming soon!</p>
+                            <img src="images/76.jpg" alt="Greg proposing to Connie" />
+                            <p class="text-center"><a href="https://studiokibo.com/greg-connie-grizzly-peak-vista-point-berkeley-surprise-proposal/">More photos</a> | <a href="https://studiokibo.pixieset.com/g/gregconnie-proposal/">Full gallery</a></p>
+
                     </section>
                     <div class="hr">
                         <hr />
@@ -293,7 +308,8 @@
                     </div>
                     <section id="contact">
                         <h2>Contact</h2>
-                        <p>Gifts, food, contact, etc.</p>
+                        <!-- <p>Gifts, food, contact, etc.</p> -->
+                        <p>Coming soon, but hopefully you already know how to reach us!</p>
                     </section>
                 </main>
 
@@ -320,7 +336,7 @@
             <img src="images/redwoods.jpg" alt="Inside the Redwood Forest" />
         </div>
 
-        <script src="node_modules/skrollr/dist/skrollr.min.js"></script>
+        <!-- <script src="node_modules/skrollr/dist/skrollr.min.js"></script> -->
         <script>
             document.documentElement.classList.remove('no-js');
 
