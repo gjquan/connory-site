@@ -31,6 +31,7 @@
                     font-family: 'Amatic SC', cursive;
                     font-weight: 700;
                 }
+                .width-30 { width: 30%; }
 
             .bg {
                 background-color: rgba(26,78,53,0.50); /* eucalyptus */
@@ -49,12 +50,13 @@
                     object-fit: cover;
                 }
 
-            .hr .line {
-                width: 100%;
-                height: 3px;
-                border-radius: 5px;
-                background: #708238; /* olive */
-            }
+            .hr { margin: 3em auto; }
+                .hr .line {
+                    width: 100%;
+                    height: 3px;
+                    border-radius: 5px;
+                    background: #708238; /* olive */
+                }
 
             header {
                 background: no-repeat center/cover url('images/132.jpg');
@@ -132,10 +134,13 @@
                 }
 
             footer {
+                margin-top: 10em;
                 font-size: 0.75em;
             }
+                footer .hr .line { height: 1px; }
                 .social {
                     float: right;
+                    margin-top: 1em;
                 }
 
             @media (min-width:22em) {
@@ -180,11 +185,11 @@
                         <h2>Once Upon a Time...</h2>
                     </section>
 
-                    <div class="hr">
-                        <hr />
-                        <div class="line"></div>
-                    </div>
                     <section id="wedding">
+                        <div class="hr">
+                            <hr />
+                            <div class="line"></div>
+                        </div>
                         <h2>The Wedding</h2>
                         <dl>
                             <dt>Date and Time</dt>
@@ -212,15 +217,51 @@
                     </div>
                     <section id="directions">
                         <h2>Directions</h2>
-                        <div>
-                            <h3>To the Ceremony</h3>
-                                <p></p>
-                            <h4>Ceremony Parking</h4>
+
+                        <h3>To the Ceremony</h3>
+                            <h4><em>From Highway 13 southbound</em></h4>
+                            <ol>
+                                <li>Take the Joaquin Miller Road / Lincoln Avenue exit.</li>
+                                <li>Turn left onto Monterey Boulevard.</li>
+                                <li>Turn left onto Joaquin Miller Road.</li>
+                                <li>Follow the road up the hill to Skyline Boulevard and turn left.</li>
+                                <li>Roberts is a mile up Skyline Boulevard on the right.</li>
+                            </ol>
+                            <h4><em>From Highway 13 northbound</em></h4>
+                            <ol>
+                                <li>Take the Joaquin Miller Road exit.</li>
+                                <li>Turn right onto Joaquin Miller Road.</li>
+                                <li>Follow the road up the hill to Skyline Boulevard and turn left.</li>
+                                <li>Roberts is a mile up Skyline Boulevard on the right.</li>
+                            </ol>
+
+                        <h4><em>Ceremony Parking</em></h4>
+                        <p>Parking is available onsite. Tell the parking attendant you are a guest of the Quan-Co wedding to receive complimentary parking. In the unusual event that the parking lot becomes full, there are some additional spaces a few hundred yards beyond the park on Skyline Boulevard. We encourage carpooling as there are a limited number of spots near the Brazilian Room.
+
+                        <div class="hr width-30">
+                            <hr />
+                            <div class="line"></div>
                         </div>
-                        <div>
-                            <h3>To the Reception</h3>
-                            <h4>Reception Parking</h4>
-                        </div>
+
+                        <h3>To the Reception</h3>
+                            <h4><em>From Roberts Park</em></h4>
+                            <ol>
+                                <li>Turn left onto Skyline Boulevard.</li>
+                                <li>Turn right at Joaquin Miller Road.</li>
+                                <li>Follow the road down the hill to the stop sign.</li>
+                                <li>After the stop sign, take the ramp on the right onto highway 13 northbound.</li>
+                                <li>Take exit 5C to merge onto highway 24 eastbound.</li>
+                                <li>Take the right tunnel and stay in the right lane.</li>
+                                <li>Immediately following the tunnel, take exit 7A toward Fish Ranch Road.</li>
+                                <li>Fish Ranch Road turns right and continues over the highway.</li>
+                                <li>Turn right onto Grizzly Peak Boulevard.</li>
+                                <li>Turn right onto South Park Drive.</li>
+                                <li>Turn left onto Wildcat Canyon Road.</li>
+                                <li>At the fork, keep right and look for the Brazilian Room parking lot on the right.</li>
+                            </ol>
+
+                        <h4>Reception Parking</h4>
+                            <p>Free parking available onsite. We encourage carpooling as there are a limited number of spots near the Brazilian Room.</p>
                     </section>
                     <div class="hr">
                         <hr />
@@ -240,11 +281,12 @@
                         <p>Gifts, food, contact, etc.</p>
                     </section>
                 </main>
-                <div class="hr">
-                    <hr />
-                    <div class="line"></div>
-                </div>
+
                 <footer>
+                    <div class="hr">
+                        <hr />
+                        <div class="line"></div>
+                    </div>
                     <div class="social">
                         <a href="https://instagram.com/hellacoco" target="_blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #b38b6d"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
@@ -267,6 +309,8 @@
         <script src="node_modules/skrollr/dist/skrollr.min.js"></script>
         <script>
             document.documentElement.classList.remove('no-js');
+
+            // TODO: maps links for non-Apple devices
         </script>
     </body>
 </html>
