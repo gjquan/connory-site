@@ -10,43 +10,49 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
+        <link href="https://fonts.googleapis.com/css?family=Amatic+SC:700|Rancho" rel="stylesheet">
         <style>
-            html {
-                box-sizing: border-box;
-            }
-            *, *:before, *:after {
-                box-sizing: inherit;
-            }
+            html { box-sizing: border-box; }
+            *, *:before, *:after { box-sizing: inherit; }
             html, body {
                 width: 100%;
                 height: 100%;
                 margin: 0;
                 padding: 0;
-                background: #1a4e35; /* eucalyptus */
+                background: #0c2921; /* dark green */
                 color: #fffff0; /* ivory */
-                font-family: Arial, Helvetica, sans-serif;
+                font-family: Bookman, 'Bookman Old Style', Garamond, Palatino, 'Times New Roman', Times, serif;
             }
-                a {
-                    color: #b38b6d; /* light taupe */
-                }
-                h1, h2 {
-                    text-align: center;
-                }
+                a { color: #b38b6d; /* light taupe */ }
+                h1, h2 { text-align: center; }
+                h2 { font-family: 'Rancho'; font-size: 2em; }
                 hr { display: none; }
+                .text-stylized {
+                    font-family: 'Amatic SC', cursive;
+                    font-weight: 700;
+                }
 
-            .bg-container {
-                position: fixed;
+            .bg {
+                background-color: rgba(26,78,53,0.50); /* eucalyptus */
                 width: 100%;
                 height: 100%;
-                background: no-repeat fixed center/cover url('images/redwoods.jpg');
-                background-color: rgba(26,78,53,0.50); /* eucalyptus */
-                background-blend-mode: multiply;
+                position: fixed;
+                top: 0;
+                left: 0;
                 z-index: -1;
             }
+                .bg img {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    mix-blend-mode: multiply;
+                    object-fit: cover;
+                }
 
             .hr .line {
                 width: 100%;
-                height: 2px;
+                height: 3px;
+                border-radius: 5px;
                 background: #708238; /* olive */
             }
 
@@ -58,8 +64,12 @@
                 .hero h1 {
                     position: absolute;
                     top: 50%;
-                    margin-top: -0.5em;
+                    margin-top: 1em;
                     width: 100%;
+                    font-size: 2.5em;
+                }
+                .icon-heart {
+                    padding: 0 0.2em;
                 }
 
             nav {
@@ -79,7 +89,7 @@
                 nav li {
                     display: inline-block;
                     line-height: 4em;
-                    padding: 0 0.5em;
+                    padding: 0 0.25em;
                 }
                 nav a {
                     text-decoration: none;
@@ -89,11 +99,12 @@
                     color: #708238; /* olive */;
                 }
                 nav li:first-child {
-                    font-size: 1.5em;
+                    font-size: 1.75em;
                     line-height: 1em;
                     text-align: left;
                     display: block;
                 }
+                    nav li:first-child a { color: #fffff0; /* ivory */ }
 
             .content {
                 padding: 0 1em 1em;
@@ -112,20 +123,48 @@
                         bottom: 0;
                         right: 0;
                     }
+                dt {
+                    padding-bottom: 0.5em;
+                    font-weight: 700;
+                }
+                dd {
+                    padding-bottom: 2em;
+                }
 
             footer {
                 font-size: 0.75em;
+            }
+                .social {
+                    float: right;
+                }
+
+            @media (min-width:22em) {
+                nav li {
+                    padding: 0 0.5em;
+                    font-weight: 700;
+                }
+            }
+            @media (min-width:40em) {
+                nav li { padding: 0 1em; }
+                nav li:first-child {
+                    position: absolute;
+                    left: 0;
+                    padding: 0 0.5em;
+                    line-height: 2em;
+                }
+            }
+            @media (min-width:64em) {
+                nav li { padding: 0 1.5em; }
             }
         </style>
 
     </head>
     <body>
-        <div class="bg-container"></div>
-        <header class="hero">
-            <h1>Gregory ❤️ Connie</h1>
+        <header class="hero" id="top">
+            <h1 class="text-stylized">Gregory <span class="icon-heart">❤️</span> Connie</h1>
             <nav>
                 <ul>
-                    <li>#connoryeverafter</li>
+                    <li class="text-stylized"><a href="#top">#connoryeverafter</a></li>
                     <li><a href="#wedding">Wedding</a></li>
                     <li><a href="#directions">Directions</a></li>
                     <li><a href="#story">Story</a></li>
@@ -137,7 +176,14 @@
         <div class="content">
             <div class="content-inner">
                 <main>
-                    <section id="intro"></section>
+                    <section id="intro">
+                        <h2>Once Upon a Time...</h2>
+                    </section>
+
+                    <div class="hr">
+                        <hr />
+                        <div class="line"></div>
+                    </div>
                     <section id="wedding">
                         <h2>The Wedding</h2>
                         <dl>
@@ -147,7 +193,7 @@
                             <dd>
                                 <address>
                                     Roberts Park
-                                    <br />10570 Skyline Blvd, Oakland, CA 94611
+                                    <br /><a href="//maps.apple.com/?q=Roberts+Regional+Recreation+Area,10570+Skyline+Blvd,Oakland,California,94619">10570 Skyline Blvd, Oakland, CA 94619</a>
                                 </address>
                             </dd>
                             <dt>Reception</dt>
@@ -155,7 +201,7 @@
                                 <address>
                                     The Brazilian Room
                                     <br />Wildcat Canyon Road at Shasta Road
-                                    <br />C L Tilden Park 29-002 Dam, Berkeley, CA 94708
+                                    <br /><a href="//maps.apple.com/?q=Brazilian+Room&ll=37.893597,-122.245405">C L Tilden Park 29-002 Dam, Berkeley, CA 94708</a>
                                 </address>
                             </dd>
                         </dl>
@@ -168,6 +214,7 @@
                         <h2>Directions</h2>
                         <div>
                             <h3>To the Ceremony</h3>
+                                <p></p>
                             <h4>Ceremony Parking</h4>
                         </div>
                         <div>
@@ -198,12 +245,24 @@
                     <div class="line"></div>
                 </div>
                 <footer>
-                    <div class="credits">
-                        <p> Photos: <a href="https://studiokibo.com/" target="_blank">Studio Kibo</a>, <a href="https://en.wikipedia.org/wiki/Prairie_Creek_Redwoods_State_Park#/media/File:Prairie_Creek_Redwoods_State_Park.jpg" target="_blank">Wikimedia</a></p>
+                    <div class="social">
+                        <a href="https://instagram.com/hellacoco" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #b38b6d"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
                     </div>
+                    <div class="credits">
+                        <p>Photos: <a href="https://studiokibo.com/" target="_blank">Studio Kibo</a>, <a href="https://en.wikipedia.org/wiki/Prairie_Creek_Redwoods_State_Park#/media/File:Prairie_Creek_Redwoods_State_Park.jpg" target="_blank">Wikimedia</a></p>
+                        <p>Site info: East Bay Regional Parks District - <a href="https://www.ebparks.org/parks/roberts/default.htm" target="_blank">Roberts</a>, <a href="https://www.ebparks.org/activities/corpfamily/br/" target="_blank">Brazilian Room</a></p>
+                    </div>
+
                 </footer>
             </div> <!-- /.content-inner -->
         </div> <!-- /.content -->
+
+        <div class="bg">
+            <!-- TODO: responsive images -->
+            <img src="images/redwoods.jpg" alt="Inside the Redwood Forest" />
+        </div>
 
         <script src="node_modules/skrollr/dist/skrollr.min.js"></script>
         <script>
