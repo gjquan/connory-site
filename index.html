@@ -22,10 +22,16 @@
                 height: 100%;
                 margin: 0;
                 padding: 0;
-                background: #1a4e35;
-                color: #e7dbd2;
+                background: #1a4e35; /* eucalyptus */
+                color: #fffff0; /* ivory */
                 font-family: Arial, Helvetica, sans-serif;
             }
+                a {
+                    color: #708238; /* olive */
+                }
+                h1, h2 {
+                    text-align: center;
+                }
 
             header {
                 background: no-repeat center/cover url('images/132.jpg');
@@ -37,7 +43,6 @@
                     top: 50%;
                     margin-top: -0.5em;
                     width: 100%;
-                    text-align: center;
                 }
 
             nav {
@@ -47,6 +52,7 @@
                 width: 100%;
                 display: table;
                 text-align: center;
+                border-bottom: 1px solid #708238; /* olive */
             }
                 nav ul, nav li {
                     margin: 0;
@@ -58,9 +64,15 @@
                     line-height: 4em;
                     padding: 0 0.5em;
                 }
+                nav a {
+                    text-decoration: none;
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                }
 
             main {
-                padding: 2em;
+                padding: 1em 2em 2em;
             }
         </style>
 
@@ -70,10 +82,10 @@
             <h1>Gregory ❤️ Connie</h1>
             <nav>
                 <ul>
-                    <li>Wedding</li>
-                    <li>Directions</li>
-                    <li>Story</li>
-                    <li>Contact</li>
+                    <li><a href="#wedding">Wedding</a></li>
+                    <li><a href="#directions">Directions</a></li>
+                    <li><a href="#story">Story</a></li>
+                    <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
         </header>
@@ -82,6 +94,7 @@
             <section id="intro"></section>
             <section id="wedding">
                 <h2>The Wedding</h2>
+                <h3>#connoryeverafter</h3>
                 <dl>
                     <dt>Date and Time</dt>
                     <dd>Sunday, September 29, 2019 late afternoon</dd>
@@ -127,8 +140,8 @@
             <div class="hr">
                 <hr />
             </div>
-            <section id="etc">
-                <h3>Other Stuff</h3>
+            <section id="contact">
+                <h2>Contact</h2>
                 <p>Gifts, food, contact, etc.</p>
             </section>
         </main>
