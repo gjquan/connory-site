@@ -699,19 +699,53 @@
         <script>
             document.documentElement.classList.remove('no-js');
 
-            // TODO: fix menu sticky jank on mobile
-            // var header = document.getElementById('header');
-            // var nav = document.getElementById('nav');
-            // var CLASS_NAME_STICKY = 'sticky-nav';
-            // window.addEventListener('scroll', function() {
-            //     if (window.pageYOffset > nav.offsetTop) {
-            //         document.body.classList.add(CLASS_NAME_STICKY);
-            //         header.style.top = (nav.offsetHeight - header.offsetHeight) + 'px';
-            //     } else {
-            //         document.body.classList.remove(CLASS_NAME_STICKY);
-            //         header.style.top = 0;
-            //     }
-            // });
+            /**
+             * sticky navigation menu
+             */
+            var stickyNav = {
+                animating: false,
+                CLASS_NAME_STICKY: 'sticky-nav',
+                MIN_STICKY_HEIGHT: 480,
+                header: document.getElementById('header'),
+                nav: document.getElementById('nav'),
+
+                enableSticky: function enableSticky() {
+                    document.body.classList.add(this.CLASS_NAME_STICKY);
+                    this.header.style.top = (this.nav.offsetHeight - this.header.offsetHeight) + 'px';
+                },
+                disableSticky: function disableSticky() {
+                    document.body.classList.remove(this.CLASS_NAME_STICKY);
+                    this.header.style.top = 0;
+                },
+                animate: function animate() {
+                    if (window.pageYOffset > (window.innerHeight - this.nav.offsetHeight)) {
+                        this.enableSticky();
+                    } else {
+                        this.disableSticky();
+                    }
+                    this.animating = false;
+                },
+                onscroll: function onscroll(event) {
+                    if (!this.animating) {
+                        this.animating = true;
+                        window.requestAnimationFrame(this.animate.bind(this));
+                    }
+                }
+            };
+
+            var boundOnScroll = stickyNav.onscroll.bind(stickyNav);
+            var setListeners = function setListeners() {
+                if (window.innerHeight > stickyNav.MIN_STICKY_HEIGHT) {
+                    window.addEventListener('scroll', boundOnScroll);
+                } else {
+                    window.removeEventListener('scroll', boundOnScroll);
+                    stickyNav.disableSticky.call(stickyNav);
+                }
+            };
+
+            window.addEventListener('orientationchange', setListeners);
+            window.addEventListener('resize', setListeners);
+            setListeners();
 
             // TODO: maps links for non-Apple devices
         </script>
