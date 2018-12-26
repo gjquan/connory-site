@@ -770,11 +770,11 @@
             };
             StickyNav.prototype.enableSticky = function enableSticky() {
                 document.body.classList.add(this.CLASS_NAME_STICKY);
-                this.containerElement.style.top = (this.menuElement.offsetHeight - this.containerElement.offsetHeight) + 'px';
+                this.containerElement.style.transform = 'translateY(' + (this.menuElement.offsetHeight - this.containerElement.offsetHeight) + 'px)';
             };
             StickyNav.prototype.disableSticky = function disableSticky() {
                 document.body.classList.remove(this.CLASS_NAME_STICKY);
-                this.containerElement.style.top = 0;
+                this.containerElement.style.transform = null;
             };
             StickyNav.prototype._animate = function animate() {
                 if (window.pageYOffset > (window.innerHeight - this.menuElement.offsetHeight)) {
