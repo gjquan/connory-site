@@ -151,6 +151,12 @@
                 transition-duration: 1s, 0.5s;
                 transition-timing-function: ease;
             }
+                #menu-toggle::before {
+                    content: '\00D7';
+                    width: 40px;
+                    height: 40px;
+                    display: block;
+                }
                 .sticky-nav #menu-toggle {
                     right: 10px;
                     opacity: 1;
@@ -259,7 +265,7 @@
         <header class="hero" id="header">
             <h1 class="text-stylized">Gregory <span class="icon icon-heart">❤️</span> Connie</h1>
             <nav id="nav">
-                <div id="menu-toggle">&times;<br />Hide</div>
+                <div id="menu-toggle"><br />Hide</div>
                 <ul>
                     <li class="text-stylized"><a href="#header">#connoryeverafter</a></li>
                     <li><a href="#wedding">Wedding</a></li>
