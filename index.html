@@ -63,6 +63,7 @@
 
             header {
                 background: no-repeat center/cover url('images/132.jpg');
+                background-color: #4d4940; /* dark gray */;
                 position: absolute;
                 top: 0;
                 width: 100%;
@@ -132,6 +133,7 @@
             }
             .sticky-nav header {
                 position: fixed;
+                top: -100%;
             }
             #menu-toggle {
                 position: absolute;
@@ -243,6 +245,11 @@
             }
             @media screen and (orientation: landscape) and (min-height: 40em) {
                 .hero h1 { top: 55%; }
+            }
+
+            /* hax */
+            .mobile header {
+                transition: transform 0.05s ease; /* fix delayed sticky behavior on scroll */
             }
         </style>
 
@@ -730,6 +737,9 @@
         <!-- <script src="node_modules/skrollr/dist/skrollr.min.js"></script> -->
         <script>
             document.documentElement.classList.remove('no-js');
+            if (navigator.userAgent.match(/Mobile|Android/)) {
+                document.documentElement.classList.add('mobile');
+            }
 
             /**
              * sticky navigation menu
@@ -770,7 +780,7 @@
             };
             StickyNav.prototype.enableSticky = function enableSticky() {
                 document.body.classList.add(this.CLASS_NAME_STICKY);
-                this.containerElement.style.transform = 'translateY(' + (this.menuElement.offsetHeight - this.containerElement.offsetHeight) + 'px)';
+                this.containerElement.style.transform = 'translateY(' + this.menuElement.offsetHeight + 'px)';
             };
             StickyNav.prototype.disableSticky = function disableSticky() {
                 document.body.classList.remove(this.CLASS_NAME_STICKY);
