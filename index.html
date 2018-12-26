@@ -108,7 +108,7 @@
                 }
                 nav li {
                     display: inline-block;
-                    line-height: 4em;
+                    line-height: 3em;
                     padding: 0 0.25em;
                 }
                 nav a {
@@ -196,13 +196,13 @@
                 }
                 .attribution { font-size: 0.5em; }
 
-            @media (min-width:22em) {
+            @media screen and (min-width:22em) {
                 nav li {
                     padding: 0 0.5em;
                     font-weight: 700;
                 }
             }
-            @media (min-width:40em) {
+            @media screen and (min-width:40em) {
                 .hero h1 { top: 55%; }
 
                 nav {
@@ -217,11 +217,15 @@
                     line-height: 2em;
                 }
             }
-            @media (min-width:48em) {
+            @media screen and (min-width:48em) {
                 nav { text-align: center; }
             }
-            @media (min-width:64em) {
+            @media screen and (min-width:64em) {
                 nav li { padding: 0 1.5em; }
+            }
+
+            @media screen and (min-height: 45em) {
+                nav li { line-height: 4em; }
             }
 
             @media screen and (orientation: landscape) and (min-height: 0) {
@@ -762,7 +766,7 @@
                     window.addEventListener('scroll', this.boundScroll);
                 } else {
                     window.removeEventListener('scroll', this.boundScroll);
-                    stickyNav.disableSticky.call(stickyNav);
+                    this.disableSticky.call(this);
                 }
             };
             StickyNav.prototype.init = function init() {
