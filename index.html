@@ -63,6 +63,7 @@
 
             header {
                 background: no-repeat center/cover url('images/132.jpg');
+                background-color: #4d4940; /* dark gray */;
                 position: absolute;
                 top: 0;
                 width: 100%;
@@ -108,7 +109,7 @@
                 }
                 nav li {
                     display: inline-block;
-                    line-height: 4em;
+                    line-height: 3em;
                     padding: 0 0.25em;
                 }
                 nav a {
@@ -132,7 +133,34 @@
             }
             .sticky-nav header {
                 position: fixed;
+                top: -100%;
             }
+            #menu-toggle {
+                position: absolute;
+                right: -70px;
+                top: 10px;
+                font-size: 30px;
+                line-height: 40px;
+                width: 40px;
+                height: 40px;
+                cursor: pointer;
+                color: #fffff0;
+                overflow: hidden;
+                opacity: 0;
+                transition-property: opacity, right;
+                transition-duration: 1s, 0.5s;
+                transition-timing-function: ease;
+            }
+                #menu-toggle::before {
+                    content: '\00D7';
+                    width: 40px;
+                    height: 40px;
+                    display: block;
+                }
+                .sticky-nav #menu-toggle {
+                    right: 10px;
+                    opacity: 1;
+                }
 
             .content {
                 padding: 0 1.5em 1em;
@@ -183,16 +211,19 @@
                 }
                 .attribution { font-size: 0.5em; }
 
-            @media (min-width:22em) {
+            @media screen and (min-width:22em) {
                 nav li {
                     padding: 0 0.5em;
                     font-weight: 700;
                 }
             }
-            @media (min-width:40em) {
+            @media screen and (min-width:40em) {
                 .hero h1 { top: 55%; }
 
-                nav { text-align: right; }
+                nav {
+                    text-align: right;
+                    padding-top: 0;
+                }
                 nav li { padding: 0 1em; }
                 nav li:first-child {
                     position: absolute;
@@ -201,11 +232,15 @@
                     line-height: 2em;
                 }
             }
-            @media (min-width:48em) {
+            @media screen and (min-width:48em) {
                 nav { text-align: center; }
             }
-            @media (min-width:64em) {
+            @media screen and (min-width:64em) {
                 nav li { padding: 0 1.5em; }
+            }
+
+            @media screen and (min-height: 45em) {
+                nav li { line-height: 4em; }
             }
 
             @media screen and (orientation: landscape) and (min-height: 0) {
@@ -217,6 +252,11 @@
             @media screen and (orientation: landscape) and (min-height: 40em) {
                 .hero h1 { top: 55%; }
             }
+
+            /* hax */
+            .mobile header {
+                transition: transform 0.05s ease; /* fix delayed sticky behavior on scroll */
+            }
         </style>
 
     </head>
@@ -225,6 +265,7 @@
         <header class="hero" id="header">
             <h1 class="text-stylized">Gregory <span class="icon icon-heart">❤️</span> Connie</h1>
             <nav id="nav">
+                <div id="menu-toggle"><br />Hide</div>
                 <ul>
                     <li class="text-stylized"><a href="#header">#connoryeverafter</a></li>
                     <li><a href="#wedding">Wedding</a></li>
@@ -702,20 +743,79 @@
         <!-- <script src="node_modules/skrollr/dist/skrollr.min.js"></script> -->
         <script>
             document.documentElement.classList.remove('no-js');
+            if (navigator.userAgent.match(/Mobile|Android/)) {
+                document.documentElement.classList.add('mobile');
+            }
 
-            // TODO: fix menu sticky jank on mobile
-            // var header = document.getElementById('header');
-            // var nav = document.getElementById('nav');
-            // var CLASS_NAME_STICKY = 'sticky-nav';
-            // window.addEventListener('scroll', function() {
-            //     if (window.pageYOffset > nav.offsetTop) {
-            //         document.body.classList.add(CLASS_NAME_STICKY);
-            //         header.style.top = (nav.offsetHeight - header.offsetHeight) + 'px';
-            //     } else {
-            //         document.body.classList.remove(CLASS_NAME_STICKY);
-            //         header.style.top = 0;
-            //     }
-            // });
+            /**
+             * sticky navigation menu
+             */
+            var StickyNav = function StickyNav(menuElement, containerElement, toggleElement) {
+                this.CLASS_NAME_STICKY = 'sticky-nav';
+                this.MIN_STICKY_HEIGHT = 480;
+
+                this.menuElement = menuElement || document.getElementById('nav');
+                this.containerElement = containerElement || document.getElementById('header');
+                this.toggleElement = toggleElement || document.getElementById('menu-toggle');
+
+                this._animating = false;
+                this._boundScroll = null;
+                this._boundSetStickiness = null;
+            };
+            StickyNav.prototype.init = function init() {
+                this._boundScroll = this._onscroll.bind(this);
+                this._boundSetStickiness = this._setStickiness.bind(this);
+                this.toggleElement.addEventListener('click', this.destroy.bind(this));
+                this.enable();
+
+                return this;
+            };
+            StickyNav.prototype.enable = function enable() {
+                window.addEventListener('orientationchange', this._boundSetStickiness);
+                window.addEventListener('resize', this._boundSetStickiness);
+                this._boundSetStickiness();
+            };
+            StickyNav.prototype.disable = function disable() {
+                this.disableSticky();
+            };
+            StickyNav.prototype.destroy = function() {
+                this.disable();
+                window.removeEventListener('orientationchange', this._boundSetStickiness);
+                window.removeEventListener('resize', this._boundSetStickiness);
+                window.removeEventListener('scroll', this._boundScroll);
+            };
+            StickyNav.prototype.enableSticky = function enableSticky() {
+                document.body.classList.add(this.CLASS_NAME_STICKY);
+                this.containerElement.style.transform = 'translateY(' + this.menuElement.offsetHeight + 'px)';
+            };
+            StickyNav.prototype.disableSticky = function disableSticky() {
+                document.body.classList.remove(this.CLASS_NAME_STICKY);
+                this.containerElement.style.transform = null;
+            };
+            StickyNav.prototype._animate = function animate() {
+                if (window.pageYOffset > (window.innerHeight - this.menuElement.offsetHeight)) {
+                    this.enableSticky();
+                } else {
+                    this.disableSticky();
+                }
+                this._animating = false;
+            };
+            StickyNav.prototype._onscroll = function onscroll(event) {
+                if (!this._animating) {
+                    this._animating = true;
+                    window.requestAnimationFrame(this._animate.bind(this));
+                }
+            };
+            StickyNav.prototype._setStickiness = function setStickiness() {
+                if (window.innerHeight > this.MIN_STICKY_HEIGHT) {
+                    window.addEventListener('scroll', this._boundScroll);
+                } else {
+                    window.removeEventListener('scroll', this._boundScroll);
+                    this.disableSticky.call(this);
+                }
+            };
+
+            var stickyNav = new StickyNav().init();
 
             // TODO: maps links for non-Apple devices
         </script>
