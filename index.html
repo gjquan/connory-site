@@ -133,7 +133,7 @@
             .sticky-nav header {
                 position: fixed;
             }
-            /* #menu-toggle {
+            #menu-toggle {
                 position: absolute;
                 right: 10px;
                 top: 10px;
@@ -143,9 +143,10 @@
                 height: 40px;
                 cursor: pointer;
                 color: #fffff0;
+                overflow: hidden;
                 display: none;
             }
-                #menu-toggle.enabled { display: block; } */
+                .sticky-nav #menu-toggle { display: block; }
 
             .content {
                 padding: 0 1.5em 1em;
@@ -245,7 +246,7 @@
         <header class="hero" id="header">
             <h1 class="text-stylized">Gregory <span class="icon icon-heart">❤️</span> Connie</h1>
             <nav id="nav">
-                <!-- <div id="menu-toggle">&times;</div> -->
+                <div id="menu-toggle">&times;<br />Hide</div>
                 <ul>
                     <li class="text-stylized"><a href="#header">#connoryeverafter</a></li>
                     <li><a href="#wedding">Wedding</a></li>
@@ -732,7 +733,7 @@
                 this.MIN_STICKY_HEIGHT = 480;
                 this.header = document.getElementById('header');
                 this.nav = document.getElementById('nav');
-                //this.menuToggle = document.getElementById('menu-toggle');
+                this.menuToggle = document.getElementById('menu-toggle');
                 this.animating = false;
                 this.boundScroll = null;
                 this.boundSetStickiness = null;
@@ -740,7 +741,6 @@
             StickyNav.prototype.enableSticky = function enableSticky() {
                 document.body.classList.add(this.CLASS_NAME_STICKY);
                 this.header.style.top = (this.nav.offsetHeight - this.header.offsetHeight) + 'px';
-                //this.menuToggle.classList.add('enabled');
             };
             StickyNav.prototype.disableSticky = function disableSticky() {
                 document.body.classList.remove(this.CLASS_NAME_STICKY);
@@ -771,7 +771,7 @@
             };
             StickyNav.prototype.init = function init() {
                 this.boundSetStickiness = this.setStickiness.bind(this);
-                //this.menuToggle.addEventListener('click', this.destroy.bind(this));
+                this.menuToggle.addEventListener('click', this.destroy.bind(this));
                 this.enable();
 
                 return this;
@@ -782,7 +782,6 @@
                 this.boundSetStickiness();
             };
             StickyNav.prototype.disable = function disable() {
-                //this.menuToggle.classList.remove('enabled');
                 this.disableSticky();
             };
             StickyNav.prototype.destroy = function() {
