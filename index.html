@@ -135,7 +135,7 @@
             }
             #menu-toggle {
                 position: absolute;
-                right: 10px;
+                right: -70px;
                 top: 10px;
                 font-size: 30px;
                 line-height: 40px;
@@ -144,9 +144,15 @@
                 cursor: pointer;
                 color: #fffff0;
                 overflow: hidden;
-                display: none;
+                opacity: 0;
+                transition-property: opacity, right;
+                transition-duration: 1s, 0.5s;
+                transition-timing-function: ease;
             }
-                .sticky-nav #menu-toggle { display: block; }
+                .sticky-nav #menu-toggle {
+                    right: 10px;
+                    opacity: 1;
+                }
 
             .content {
                 padding: 0 1.5em 1em;
