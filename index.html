@@ -44,7 +44,7 @@
                 position: fixed;
                 top: 0;
                 left: 0;
-                z-index: -1;
+                z-index: -2;
             }
                 .bg img {
                     display: block;
@@ -171,7 +171,20 @@
                     padding: 1em 1.5em;
                     max-width: 50em;
                     margin: 0 auto;
-                    background: rgba(255,255,240,0.80); /* ivory */
+                    background: rgba(255,255,240,0.60); /* ivory */
+                    position: relative;
+                    z-index: 2;
+                }
+                .content-inner:after {
+                    content: "";
+                    background: center url('images/paper-1600.jpg');
+                    opacity: 0.5;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    position: absolute;
+                    z-index: -1;
                 }
                 section {
                     position: relative;
