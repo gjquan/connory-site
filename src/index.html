@@ -396,7 +396,7 @@
                             <dd>
                                 <address>
                                     Roberts Park - Madrone Picnic Area
-                                    <br /><a href="//maps.apple.com/?q=Roberts+Regional+Recreation+Area,10570+Skyline+Blvd,Oakland,California,94619">10570 Skyline Blvd, Oakland, CA 94619</a>
+                                    <br /><a href="//maps.google.com/?q=Roberts+Regional+Recreation+Area,10570+Skyline+Blvd,Oakland,California,94619" class="link-map">10570 Skyline Blvd, Oakland, CA 94619</a>
                                     <br /><a class="image-link" href="https://www.ebparks.org/images/Assets/_Nav_Categories/Parks/Roberts/trail_map_2250w_roberts.gif">Park map</a>
                                 </address>
                             </dd>
@@ -405,7 +405,7 @@
                                 <address>
                                     The Brazilian Room
                                     <br />Wildcat Canyon Road at Shasta Road
-                                    <br /><a href="//maps.apple.com/?q=Brazilian+Room&ll=37.893597,-122.245405">C L Tilden Park 29-002 Dam, Berkeley, CA 94708</a>
+                                    <br /><a href="//maps.google.com/?q=Brazilian+Room&ll=37.893597,-122.245405" class="link-map">C L Tilden Park 29-002 Dam, Berkeley, CA 94708</a>
                                     <br /><a href="https://www.ebparks.org/civicax/filebank/blobdload.aspx?BlobID=22979">Printable map</a>
                                 </address>
                             </dd>
@@ -601,7 +601,7 @@
                         <h2>Directions</h2>
 
                         <h3>To the Ceremony</h3>
-                            <h4 class="text-center"><a href="//maps.apple.com/?q=Roberts+Regional+Recreation+Area,10570+Skyline+Blvd,Oakland,California,94619">Roberts Park</a></h4>
+                            <h4 class="text-center"><a href="//maps.google.com/?q=Roberts+Regional+Recreation+Area,10570+Skyline+Blvd,Oakland,California,94619" class="link-map">Roberts Park</a></h4>
                             <h4><em>From Highway 13 southbound</em></h4>
                             <ol>
                                 <li>Take the Joaquin Miller Road / Lincoln Avenue exit.</li>
@@ -627,7 +627,7 @@
                         </div>
 
                         <h3>To the Reception</h3>
-                            <h4 class="text-center"><a href="//maps.apple.com/?q=Brazilian+Room&ll=37.893597,-122.245405">The Brazilian Room</a></h4>
+                            <h4 class="text-center"><a href="//maps.google.com/?q=Brazilian+Room&ll=37.893597,-122.245405" class="link-map">The Brazilian Room</a></h4>
                             <h4><em>From Roberts Park</em></h4>
                             <ol>
                                 <li>Turn left onto Skyline Boulevard.</li>
@@ -865,7 +865,14 @@
 
             var stickyNav = new StickyNav().init();
 
-            // TODO: maps links for non-Apple devices
+            // maps links for Apple devices
+            var isAppleDevice = navigator.userAgent.match(/iP(hone|od|ad)|Macintosh/);
+            if (isAppleDevice) {
+                var links = Array.prototype.slice.call(document.getElementsByClassName('link-map'));
+                links.forEach(function(link) {
+                    link.href = link.href.replace(/maps.google.com/, 'maps.apple.com');
+                });
+            }
         </script>
     </body>
 </html>
