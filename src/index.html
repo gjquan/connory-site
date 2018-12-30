@@ -180,12 +180,15 @@
                 z-index: 2;
             }
                 .content-inner section {
+                    padding: 1em 1.5em;
                     background: rgba(255,255,240,0.4); /* ivory */
                 }
                 .content-inner section:after {
                     content: "";
-                    background: no-repeat top left url('../assets/paper.jpg');
-                    background-size: 100% 100%;
+                    background: no-repeat top left url('images/paper-top.jpg'),
+                                no-repeat bottom left url('images/paper-bottom.jpg'),
+                                repeat-y top 326px left url('images/paper-center.jpg');
+                    background-size: 100% auto;
                     opacity: 0.7;
                     top: 0;
                     left: 0;
@@ -220,7 +223,6 @@
                 }
 
             section, footer {
-                padding: 1em 1.5em;
                 max-width: 50em;
                 margin: 0 auto;
                 position: relative;
@@ -296,7 +298,11 @@
             @media screen and (max-resolution: 96dpi) and (max-width: 1920px),
                    screen and (max-width: 1000px) {
                 header { background-image: url('images/connory-proposal-132-1440.jpg'); }
-                .content-inner:after { background-image: url('images/paper-800.jpg'); }
+                .content-inner section:after {
+                    background-image: url('images/paper-top-800.jpg'),
+                                      url('images/paper-bottom-800.jpg'),
+                                      url('images/paper-center-800.jpg');
+                }
             }
 
             /* hax */
