@@ -60,9 +60,10 @@
             }
                 .bg img {
                     display: block;
-                    width: 100%;
+                    width: auto;
                     height: 100%;
                     object-fit: cover;
+                    transition: transform 0.1s ease;
                 }
 
             .hr { margin: 3em auto; }
@@ -796,7 +797,7 @@
         </div> <!-- /.content -->
 
         <div class="bg">
-            <img src="images/redwoods.jpg" alt="Inside the Redwood Forest" width="1920" height="1080"
+            <img src="images/redwoods.jpg" alt="Inside the Redwood Forest" width="1920" height="1080" id="main-bg"
                  srcset="images/redwoods.jpg 2000w, images/redwoods-720.jpg 1000w, images/redwoods-480.jpg 750w" />
         </div>
 
@@ -805,6 +806,51 @@
             if (navigator.userAgent.match(/Mobile|Android/)) {
                 document.documentElement.classList.add('mobile');
             }
+
+            // maps links for Apple devices
+            var isAppleDevice = navigator.userAgent.match(/iP(hone|od|ad)|Macintosh/);
+            if (isAppleDevice) {
+                var links = Array.prototype.slice.call(document.getElementsByClassName('link-map'));
+                links.forEach(function(link) {
+                    link.href = link.href.replace(/maps.google.com/, 'maps.apple.com');
+                });
+            }
+
+            /**
+             * main background parallax zoom
+             */
+            var ScrollZoom = function(element) {
+                this.INITIAL_SCALE = 1;
+                this.FINAL_SCALE = 1.2;
+                this.DEBOUNCE_TIME_MS = 80;
+
+                this._animating = false;
+                this._lastAnimationTime = 0;
+                this._element = element || document.getElementById('main-bg');
+            };
+            ScrollZoom.prototype.init = function init() {
+                window.addEventListener('scroll', this._onscroll.bind(this));
+
+                return this;
+            };
+            ScrollZoom.prototype._getScrollPercentage = function getScrollPercentage() {
+                var html = document.documentElement;
+                return (html.scrollTop / (html.scrollHeight - html.clientHeight));
+            };
+            ScrollZoom.prototype._onscroll = function onscroll() {
+                if (!this._animating && Date.now() > (this._lastAnimationTime + this.DEBOUNCE_TIME_MS)) {
+                    this._animating = true;
+                    var scaleValue = this.INITIAL_SCALE +
+                        (this._getScrollPercentage() * (this.FINAL_SCALE - this.INITIAL_SCALE));
+                    window.requestAnimationFrame(function() {
+                        this._element.style.transform = 'scale(' + scaleValue + ')';
+                        this._lastAnimationTime = Date.now();
+                        this._animating = false;
+                    }.bind(this));
+                }
+            };
+
+            var scrollZoom = new ScrollZoom().init();
 
             /**
              * sticky navigation menu
@@ -875,15 +921,6 @@
             };
 
             var stickyNav = new StickyNav().init();
-
-            // maps links for Apple devices
-            var isAppleDevice = navigator.userAgent.match(/iP(hone|od|ad)|Macintosh/);
-            if (isAppleDevice) {
-                var links = Array.prototype.slice.call(document.getElementsByClassName('link-map'));
-                links.forEach(function(link) {
-                    link.href = link.href.replace(/maps.google.com/, 'maps.apple.com');
-                });
-            }
         </script>
     </body>
 </html>
