@@ -974,6 +974,17 @@
             }
 
             /**
+             * maps links for Apple devices
+             */
+            var isAppleDevice = navigator.userAgent.match(/iP(hone|od|ad)|Macintosh/);
+            if (isAppleDevice) {
+                var links = Array.prototype.slice.call(document.getElementsByClassName('link-map'));
+                links.forEach(function(link) {
+                    link.href = link.href.replace(/maps.google.com/, 'maps.apple.com');
+                });
+            }
+
+            /**
              * sticky navigation menu
              */
             var StickyNav = function StickyNav(menuElement, containerElement, toggleElement) {
@@ -1121,17 +1132,6 @@
             };
 
             var galleryManager = new GalleryManager().init();
-
-            /**
-             * maps links for Apple devices
-             */
-            var isAppleDevice = navigator.userAgent.match(/iP(hone|od|ad)|Macintosh/);
-            if (isAppleDevice) {
-                var links = Array.prototype.slice.call(document.getElementsByClassName('link-map'));
-                links.forEach(function(link) {
-                    link.href = link.href.replace(/maps.google.com/, 'maps.apple.com');
-                });
-            }
         </script>
     </body>
 </html>
