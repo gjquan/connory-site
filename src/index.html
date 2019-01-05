@@ -826,6 +826,7 @@
 
                 this._animating = false;
                 this._lastAnimationTime = 0;
+                this._lastScaleValue = this.INITIAL_SCALE;
                 this._element = element || document.getElementById('main-bg');
             };
             ScrollZoom.prototype.init = function init() {
@@ -837,16 +838,24 @@
                 var html = document.documentElement;
                 return (html.scrollTop / (html.scrollHeight - html.clientHeight));
             };
+            ScrollZoom.prototype._getScaleValue = function getScaleValue() {
+                var scaleInterval = this.FINAL_SCALE - this.INITIAL_SCALE;
+                var scalePercentage = this._getScrollPercentage();
+                console.log(scalePercentage);
+                return this.INITIAL_SCALE + (scalePercentage * scaleInterval);
+            };
             ScrollZoom.prototype._onscroll = function onscroll() {
                 if (!this._animating && Date.now() > (this._lastAnimationTime + this.DEBOUNCE_TIME_MS)) {
-                    this._animating = true;
-                    var scaleValue = this.INITIAL_SCALE +
-                        (this._getScrollPercentage() * (this.FINAL_SCALE - this.INITIAL_SCALE));
-                    window.requestAnimationFrame(function() {
-                        this._element.style.transform = 'scale(' + scaleValue + ')';
-                        this._lastAnimationTime = Date.now();
-                        this._animating = false;
-                    }.bind(this));
+                    var currentScaleValue = this._getScaleValue();
+                    if (currentScaleValue !== this._lastScaleValue) {
+                        this._animating = true;
+                        this._lastScaleValue = currentScaleValue;
+                        window.requestAnimationFrame(function() {
+                            this._element.style.transform = 'scale(' + currentScaleValue + ')';
+                            this._lastAnimationTime = Date.now();
+                            this._animating = false;
+                        }.bind(this));
+                    }
                 }
             };
 
