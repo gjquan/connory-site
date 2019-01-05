@@ -294,7 +294,7 @@
                 display: inline-block;
                 width: 100%;
                 height: auto;
-                padding-bottom: 0.5em;
+                margin-bottom: 0.5em;
             }
 
             section, footer {
@@ -352,6 +352,27 @@
             }
             @media screen and (min-width:48em) {
                 nav { text-align: center; }
+
+                .gallery {
+                    display: flex;
+                    flex-wrap: wrap;
+                    flex-direction: row;
+                    align-items: center;
+                    margin: 0 -0.25em;
+                }
+                .gallery img {
+                    width: calc(50% - 0.5em);
+                    margin-left: 0.25em;
+                    margin-right: 0.25em;
+                    transition: all 0.2s ease;
+                }
+                    .gallery img.expanded {
+                        width: calc(100% - 0.5em);
+                    }
+                    .gallery img:not(.expanded):last-of-type:nth-of-type(odd) {
+                        margin-left: auto;
+                        margin-right: auto;
+                    }
             }
             @media screen and (min-width: 60em) {
                 .story-card {
@@ -1072,6 +1093,34 @@
             };
 
             var storyToggle = new StoryToggle().init();
+
+            /**
+             * gallery images
+             */
+            var GalleryManager = function GalleryManager(galleryElements) {
+                this.CLASS_NAME_EXPANDED = 'expanded';
+                this.TAG_NAME_IMAGE = 'img';
+                this.TRANSIION_TIME_MS = 200;
+
+                this._galleries = Array.prototype.slice.call(galleryElements || document.getElementsByClassName('gallery'));
+            };
+            GalleryManager.prototype.init = function init() {
+                this._galleries.forEach(function(gallery) {
+                    gallery.addEventListener('click', this._onclick.bind(this));
+                }.bind(this));
+
+                return this;
+            };
+            GalleryManager.prototype._onclick = function onclick(event) {
+                if(event.target.tagName.toLowerCase() === this.TAG_NAME_IMAGE) {
+                    event.target.classList.toggle(this.CLASS_NAME_EXPANDED);
+                    setTimeout(function(){
+                        event.target.scrollIntoView({ behavior: 'smooth' });
+                    }, this.TRANSIION_TIME_MS);
+                };
+            };
+
+            var galleryManager = new GalleryManager().init();
 
             /**
              * maps links for Apple devices
