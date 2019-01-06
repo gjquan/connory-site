@@ -32,7 +32,7 @@
                 hr { display: none; }
                 img { max-width: 100%; height: auto; }
                 svg { fill: #68826b; /* green */ }
-                div:focus { outline: none; }
+                div:focus, img:focus { outline: none; }
                 .icon { display: inline-block; }
                 .float-right { float: right; }
                 .text-center { text-align: center; }
@@ -953,11 +953,12 @@
                             </dl>
                                 <p>Stef and Rox suggest lunch at Shimizu Sushi, which "coincidentally" happens to be the restaurant where Greg and Connie has their first date. Estella "coincidentally" runs into Connie during the meal and delivers a package containing the scrapbook, craft supplies, tissues, and a polaroid camera. Inside the scrapbook is the first scavenger hunt clue: a short story about two love birds named Pen<strong>Quan</strong> and Flamin<strong>Co</strong>. Various words and letters are highlighted in the story, which spell out the location of the next clue. The story also includes a hint about how to unlock the second clue at the next location.</p>
                                 <div class="gallery">
-                                    <img src="images/proposal/connory-location-1.jpg" width="1600" height="2133" />
-                                    <img src="images/proposal/connory-clue-1.jpg" width="800" height="600" />
-                                    <img src="images/proposal/connory-clue-1b.jpg" width="800" height="600" />
-                                    <img src="images/proposal/connory-clue-1c.jpg" width="800" height="600" />
-                                    <img src="images/proposal/connory-clue-1d.jpg" width="800" height="600" />
+                                    <img data-src="images/proposal/connory-location-1.jpg" width="800" height="600" alt="Estella surprises Connie" />
+                                    <img data-src="images/proposal/connory-location-1b.jpg" width="800" height="600" alt="Connie opens the package!" />
+                                    <img data-src="images/proposal/connory-clue-1.jpg" width="800" height="600" alt="The scrapbook" />
+                                    <img data-src="images/proposal/connory-clue-1b.jpg" width="800" height="600" alt="PenQuan and FlaminCo" />
+                                    <img data-src="images/proposal/connory-clue-1c.jpg" width="800" height="600" alt="The love birds love story" />
+                                    <img data-src="images/proposal/connory-clue-1d.jpg" width="800" height="600" alt="Scrapbook photos" />
                                 </div>
                         </section>
                     </div> <!-- /.story-card-inner-2 -->
@@ -1062,13 +1063,12 @@
                 }
             };
 
-            var stickyNav = new StickyNav().init();
-
             /**
              * story toggle
              */
-            var StoryToggle = function StoryToggle(sectionId, showElement, hideElement, scrollableElement) {
+            var StoryToggle = function StoryToggle(sectionId, showElement, hideElement, scrollableElement, onShow) {
                 this.CLASS_NAME_EXPANDED = 'expanded';
+                this.onShow = onShow || function() {};
 
                 this._sectionId = sectionId || 'story-card';
                 this._sectionElement = document.getElementById(this._sectionId);
@@ -1094,6 +1094,8 @@
                 this._sectionElement.classList.add(this.CLASS_NAME_EXPANDED);
                 // TODO: investigate arrow key scrolling when the card is not initially loaded
                 this._scrollableElement.focus({ preventScroll: true });
+
+                this.onShow();
             };
             StoryToggle.prototype._hideStoryCard = function showStoryCard() {
                 this._sectionElement.classList.remove(this.CLASS_NAME_EXPANDED);
@@ -1102,8 +1104,6 @@
             StoryToggle.prototype._removeHash = function removeHash() {
                 history.pushState({}, document.title, window.location.pathname + window.location.search);
             };
-
-            var storyToggle = new StoryToggle().init();
 
             /**
              * gallery images
@@ -1116,12 +1116,22 @@
                 this._galleries = Array.prototype.slice.call(galleryElements || document.getElementsByClassName('gallery'));
             };
             GalleryManager.prototype.init = function init() {
-                this._galleries.forEach(function(gallery) {
-                    gallery.addEventListener('click', this._onclick.bind(this));
-                }.bind(this));
+                // this._galleries.forEach(function(gallery) {
+                //     gallery.addEventListener('click', this._onclick.bind(this));
+                // }.bind(this));
 
                 return this;
             };
+            GalleryManager.prototype.loadAllImages = function loadAllImages() {
+                this._galleries.forEach(function(gallery) {
+                    var images = Array.prototype.slice.call(gallery.getElementsByTagName(this.TAG_NAME_IMAGE));
+                    images.forEach(function(image) {
+                        if(!image.src) {
+                            image.src = image.getAttribute('data-src');
+                        }
+                    });
+                }.bind(this))
+            }
             GalleryManager.prototype._onclick = function onclick(event) {
                 if(event.target.tagName.toLowerCase() === this.TAG_NAME_IMAGE) {
                     event.target.classList.toggle(this.CLASS_NAME_EXPANDED);
@@ -1131,7 +1141,12 @@
                 };
             };
 
-            //var galleryManager = new GalleryManager().init();
+            var stickyNav = new StickyNav().init();
+            var storyToggle = new StoryToggle();
+            var galleryManager = new GalleryManager().init();
+            storyToggle.onShow = galleryManager.loadAllImages.bind(galleryManager);
+
+            storyToggle.init();
         </script>
     </body>
 </html>
