@@ -252,6 +252,11 @@
                             text-align: center;
                             background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style="fill: rgba(255, 255, 240, 0.7);"><circle cx="20" cy="20" r="20"/></svg>');
                             background: rgba(255,255,240,0.7);
+                            opacity: 0;
+                            transition: opacity 0.5s ease;
+                        }
+                        .story-card.expanded .btn-close::before {
+                            opacity: 1;
                         }
                     .story-hero {
                         position: relative;
