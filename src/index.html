@@ -223,7 +223,7 @@
                     padding-bottom: 1em;
                 }
                     #wedding dd { padding-bottom: 2em; }
-                main p, .story-card p {
+                main p, .story-card p:not(.text-center) {
                     text-align: justify;
                 }
 
@@ -852,7 +852,6 @@
                                 <img src="images/connory-proposal-76.jpg" alt="Greg proposing to Connie" width="1620" height="1080"
                                      srcset="images/connory-proposal-76.jpg 2000w, images/connory-proposal-76-720.jpg 1000w, images/connory-proposal-76-480.jpg 750w" />
                             </a>
-                            <p class="text-center"><a href="https://studiokibo.pixieset.com/g/gregconnie-proposal/">Full gallery from Studio Kibo</a></p>
                     </section>
 
                     <div class="hr">
@@ -1056,10 +1055,45 @@
                                     <img data-src="images/proposal/connory-clue-6.jpg" width="800" height="600" alt="The sixth and final clue" />
                                 </div>
                         </section>
+                        <section>
+                            <h3>Chapter 7</h3>
+                            <dl>
+                                <dt>Location</dt>
+                                <dd>Lawrence Hall of Science, Berkeley</dd>
+                                <dt>Significance</dt>
+                                <dd>Connie and Greg went here on their first date to take in the amazing views.</dd>
+                            </dl>
+                                <p>Greg and the clue givers met at the Lawrence Hall of Science to prepare to greet Connie. Greg waited at a scenic overlook while Ashley, Brandon, Jeremiah, and Angela stood along the path to Greg holding flowers to give to Connie. Estella and Norvelle escorted Connie down the path while playing their ukeleles. As they reach the end of the path, Greg "coincidentally" runs into Connie and asks for her hand in marriage :)</p>
+                                <div class="gallery">
+                                    <img data-src="images/proposal/Greg+Connie_proposal-9.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-18.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-27.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-35.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-50.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-54.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-55.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-60.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-63.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-64.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-65.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-79.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-88.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-104.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-110.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-114.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-136.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-139.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-149.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-155.jpg" width="800" height="533" alt="" />
+                                    <img data-src="images/proposal/Greg+Connie_proposal-162.jpg" width="800" height="533" alt="" />
+                                </div>
+                                <p class="text-center"><a href="https://studiokibo.pixieset.com/g/gregconnie-proposal/">Full gallery from Studio Kibo</a></p>
+                        </section>
                     </div> <!-- /.story-card-inner-2 -->
                 </div> <!-- /.story-card-inner-1 -->
             </div> <!-- ./story-card-content -->
         </div> <!-- ./story-card -->
+
         <script>
             /**
              * feature/device detection
@@ -1218,15 +1252,18 @@
                 return this;
             };
             GalleryManager.prototype.loadAllImages = function loadAllImages() {
-                this._galleries.forEach(function(gallery) {
-                    var images = Array.prototype.slice.call(gallery.getElementsByTagName(this.TAG_NAME_IMAGE));
-                    images.forEach(function(image) {
-                        if(!image.src) {
-                            image.src = image.getAttribute('data-src');
-                        }
-                    });
-                }.bind(this))
-            }
+                window.requestAnimationFrame(function() {
+                    this._galleries.forEach(this.loadGalleryImages.bind(this));
+                }.bind(this));
+            };
+            GalleryManager.prototype.loadGalleryImages = function loadGalleryImages(gallery) {
+                var images = Array.prototype.slice.call(gallery.getElementsByTagName(this.TAG_NAME_IMAGE));
+                images.forEach(function(image) {
+                    if(!image.src) {
+                        image.src = image.getAttribute('data-src');
+                    }
+                });
+            };
             GalleryManager.prototype._onclick = function onclick(event) {
                 if(event.target.tagName.toLowerCase() === this.TAG_NAME_IMAGE) {
                     event.target.classList.toggle(this.CLASS_NAME_EXPANDED);
@@ -1239,6 +1276,7 @@
             var stickyNav = new StickyNav().init();
             var storyToggle = new StoryToggle();
             var galleryManager = new GalleryManager().init();
+            // TODO: optimize gallery image loading
             storyToggle.onShow = galleryManager.loadAllImages.bind(galleryManager);
 
             storyToggle.init();
