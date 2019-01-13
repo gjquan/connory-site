@@ -1071,8 +1071,8 @@
                                 </dl>
                                     <p>Connie, Stef, and Rox arrive at the Stance store at the SF Premium outlets in Livermore. They walk in to the sounds of John Legend playing on the store speakers - Connie and Greg recently attended his Darkness and Light concert at the Greek Theatre in Berkeley and it was one of the best concerts they have ever attended. The store staff inform Connie that someone "coincidentally" just dropped off a job application packet. They also mention that there was something weird going on with the lights in back room, so they turned them off. Inside the application packet are some UV light pens and John Legend ticket stubs. Connie goes into the back room with the UV lights and discovers a clue - Greek letters written in invisible ink - along with a photograph of the Greek Theatre in Berkeley with a section missing.</p>
                                     <div class="gallery">
-                                        <img data-src="images/proposal/connory-location-5.jpg" width="800" height="600" alt="The Stance fam surprises Connie" />
-                                        <img data-src="images/proposal/connory-location-5b.jpg" width="800" height="600" alt="Investigating the clue in the darkness and light" />
+                                        <img data-src="images/proposal/connory-location-5.jpg" width="600" height="800" alt="The Stance fam surprises Connie" />
+                                        <img data-src="images/proposal/connory-location-5b.jpg" width="600" height="800" alt="Investigating the clue in the darkness and light" />
                                         <img data-src="images/proposal/connory-location-5c.jpg" width="800" height="600" alt="Close-up of the invisible ink clue" />
                                         <img data-src="images/proposal/connory-location-5d.jpg" width="800" height="600" alt="Connie finds another part of the clue" />
                                         <img data-src="images/proposal/connory-clue-5.jpg" width="800" height="600" alt="The fifth clue: a job application packet" />
@@ -1288,12 +1288,15 @@
                     return 0;
                 }
 
+                var maxPossibleDistanceFromBottom = document.documentElement.scrollHeight - elementOffset - elementHeight;
                 var percentageBottomInViewport = distanceOfElementBottomFromViewPortBottom / windowHeight;
-                if (percentageBottomInViewport >= this.PERCENTAGE_SCROLLED_WHEN_FULLY_DRAWN) {
+                var maxPossiblePercentageFromBottom = maxPossibleDistanceFromBottom / windowHeight;
+                var endPercentage = Math.min(this.PERCENTAGE_SCROLLED_WHEN_FULLY_DRAWN, maxPossiblePercentageFromBottom);
+                if (percentageBottomInViewport >= endPercentage) {
                     return 1;
                 }
 
-                return percentageBottomInViewport / this.PERCENTAGE_SCROLLED_WHEN_FULLY_DRAWN;
+                return percentageBottomInViewport / endPercentage;
             };
             SVGAnimate.prototype._animate = function animate() {
                 if (!this._animating) {
