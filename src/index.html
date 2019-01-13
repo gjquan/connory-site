@@ -1253,8 +1253,14 @@
                     element.style.strokeDashoffset = element.drawablePathLength;
                 });
                 window.addEventListener('load', this._onload.bind(this));
+                window.addEventListener('resize', this._initPaths.bind(this));
+                window.addEventListener('orientationchange', this._initPaths.bind(this));
 
                 return this;
+            };
+            SVGAnimate.prototype._initPaths = function initPaths() {
+                this._calculateRects();
+                this._animate();
             };
             SVGAnimate.prototype._calculateRects = function calculateRects() {
                 var windowYOffset = window.pageYOffset;
@@ -1290,6 +1296,12 @@
                 return percentageBottomInViewport / this.PERCENTAGE_SCROLLED_WHEN_FULLY_DRAWN;
             };
             SVGAnimate.prototype._animate = function animate() {
+                if (!this._animating) {
+                    this._animating = true;
+                    window.requestAnimationFrame(this._draw.bind(this));
+                }
+            };
+            SVGAnimate.prototype._draw = function draw() {
                 var pathPercentage;
                 var pathOffset;
 
@@ -1301,16 +1313,10 @@
                 this._animating = false;
             };
             SVGAnimate.prototype._onload = function onload(event) {
-                this._calculateRects();
-                this._onscroll();
-                window.addEventListener('scroll', this._onscroll.bind(this));
-            }
-            SVGAnimate.prototype._onscroll = function onscroll(event) {
-                if (!this._animating) {
-                    this._animating = true;
-                    window.requestAnimationFrame(this._animate.bind(this));
-                }
+                this._initPaths();
+                window.addEventListener('scroll', this._animate.bind(this));
             };
+
 
             /**
              * story toggle
