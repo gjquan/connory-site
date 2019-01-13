@@ -1235,6 +1235,84 @@
             };
 
             /**
+             * svg drawing on scroll
+             */
+            var SVGAnimate = function SVGAnimate(svgElements) {
+                this.CLASS_NAME_DRAWABLE = 'drawable';
+                this.PERCENTAGE_SCROLLED_WHEN_FULLY_DRAWN = 0.5;
+
+                svgElements = svgElements || document.getElementsByClassName('drawable');
+                this.svgElements = Array.prototype.slice.call(svgElements);
+
+                this._animating = false;
+            };
+            SVGAnimate.prototype.init = function init() {
+                this.svgElements.forEach(function(element) {
+                    element.drawablePathLength = element.getTotalLength();
+                    element.style.strokeDasharray = element.drawablePathLength;
+                    element.style.strokeDashoffset = element.drawablePathLength;
+                });
+                window.addEventListener('load', this._onload.bind(this));
+
+                return this;
+            };
+            SVGAnimate.prototype._calculateRects = function calculateRects() {
+                var windowYOffset = window.pageYOffset;
+                var rect;
+                var parent;
+
+                this.svgElements.forEach(function(element) {
+                    parent = element.parentElement;
+                    while (parent.offsetHeight === undefined) {
+                        parent = parent.parentElement;
+                    }
+                    element.htmlParent = parent;
+                    rect = parent.getBoundingClientRect();
+                    element.pageYOffset = rect.top + windowYOffset;
+                });
+            };
+            SVGAnimate.prototype._calculatePathPercentage = function calculatePathPercentage(svgElement) {
+                var elementHeight = svgElement.htmlParent.offsetHeight;
+                var elementOffset = svgElement.pageYOffset;
+                var windowHeight = window.innerHeight;
+                var windowOffset = window.pageYOffset;
+
+                var distanceOfElementBottomFromViewPortBottom = windowOffset + windowHeight - elementOffset - elementHeight;
+                if (distanceOfElementBottomFromViewPortBottom < 0) { // not fully on screen yet
+                    return 0;
+                }
+
+                var percentageBottomInViewport = distanceOfElementBottomFromViewPortBottom / windowHeight;
+                if (percentageBottomInViewport >= this.PERCENTAGE_SCROLLED_WHEN_FULLY_DRAWN) {
+                    return 1;
+                }
+
+                return percentageBottomInViewport / this.PERCENTAGE_SCROLLED_WHEN_FULLY_DRAWN;
+            };
+            SVGAnimate.prototype._animate = function animate() {
+                var pathPercentage;
+                var pathOffset;
+
+                this.svgElements.forEach(function(element) {
+                    pathPercentage = this._calculatePathPercentage(element);
+                    pathOffset = (1 - pathPercentage) * element.drawablePathLength;
+                    element.style.strokeDashoffset = pathOffset;
+                }.bind(this));
+                this._animating = false;
+            };
+            SVGAnimate.prototype._onload = function onload(event) {
+                this._calculateRects();
+                this._onscroll();
+                window.addEventListener('scroll', this._onscroll.bind(this));
+            }
+            SVGAnimate.prototype._onscroll = function onscroll(event) {
+                if (!this._animating) {
+                    this._animating = true;
+                    window.requestAnimationFrame(this._animate.bind(this));
+                }
+            };
+
+            /**
              * story toggle
              */
             var StoryToggle = function StoryToggle(sectionId, showElement, hideElement, scrollableElement, onShow) {
@@ -1316,6 +1394,7 @@
             };
 
             var stickyNav = new StickyNav().init();
+            var svgAnimate = new SVGAnimate().init();
             var storyToggle = new StoryToggle();
             var galleryManager = new GalleryManager().init();
             // TODO: optimize gallery image loading
