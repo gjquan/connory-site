@@ -1118,6 +1118,7 @@
             if(navigator.userAgent.match(/MSIE |Trident\/|Edge\//)) {
                 document.documentElement.classList.add('IE');
             }
+            var nativeScrollBehavior = 'scrollBehavior' in document.documentElement.style;
 
             /**
              * maps links for Apple devices
