@@ -1141,8 +1141,9 @@
                 this.containerElement = containerElement || document.getElementById('header');
                 this.toggleElement = toggleElement || document.getElementById('menu-toggle');
 
+                this._enabled = true;
                 this._animating = false;
-                this._enabled = false;
+                this._stickied = false;
                 this._boundScroll = null;
                 this._boundSetStickiness = null;
             };
@@ -1166,38 +1167,43 @@
                 window.addEventListener('orientationchange', this._boundSetStickiness);
                 window.addEventListener('resize', this._boundSetStickiness);
                 this._boundSetStickiness();
+                this._enabled = true;
             };
             StickyNav.prototype.disable = function disable() {
                 this.disableSticky();
+                this._enabled = false;
             };
             StickyNav.prototype.destroy = function() {
                 this.disable();
-                window.removeEventListener('orientationchange', this._boundSetStickiness);
-                window.removeEventListener('resize', this._boundSetStickiness);
-                window.removeEventListener('scroll', this._boundScroll);
             };
             StickyNav.prototype.enableSticky = function enableSticky() {
                 document.body.classList.add(this.CLASS_NAME_STICKY);
                 this.containerElement.style.transform = 'translateY(' + this.menuElement.offsetHeight + 'px)';
-                this._enabled = true;
+                this._stickied = true;
+                this._animating = false;
             };
             StickyNav.prototype.disableSticky = function disableSticky() {
                 document.body.classList.remove(this.CLASS_NAME_STICKY);
                 this.containerElement.style.transform = null;
-                this._enabled = false;
-            };
-            StickyNav.prototype._animate = function animate() {
-                if (window.pageYOffset > (window.innerHeight - this.menuElement.offsetHeight)) {
-                    this.enableSticky();
-                } else {
-                    this.disableSticky();
-                }
+                this._stickied = false;
                 this._animating = false;
             };
             StickyNav.prototype._onscroll = function onscroll(event) {
-                if (!this._animating) {
-                    this._animating = true;
-                    window.requestAnimationFrame(this._animate.bind(this));
+                if (window.pageYOffset === 0) {
+                    this._enabled = true;
+                }
+                if (this._enabled && !this._animating) {
+                    if (window.pageYOffset > (window.innerHeight - this.menuElement.offsetHeight)) {
+                        if (!this._stickied) {
+                            this._animating = true;
+                            window.requestAnimationFrame(this.enableSticky.bind(this));
+                        }
+                    } else {
+                        if (this._stickied) {
+                            this._animating = true;
+                            window.requestAnimationFrame(this.disableSticky.bind(this));
+                        }
+                    }
                 }
             };
             StickyNav.prototype._onNavClick = function onNavClick(event) {
@@ -1207,14 +1213,14 @@
                     if (targetElement) {
                         event.preventDefault();
                         var rect = targetElement.getBoundingClientRect();
-                        var targetYOffset = rect.top + window.pageYOffset;
-                        if (this._enabled) { targetYOffset -= this.menuElement.offsetHeight; }
+                        var targetYOffset = rect.top + window.pageYOffset - this.height;
                         window.scrollTo({ top: targetYOffset, behavior: 'smooth' });
                     }
                 }
             };
             StickyNav.prototype._setStickiness = function setStickiness() {
                 if (window.innerHeight > this.MIN_STICKY_HEIGHT) {
+                    this._boundScroll();
                     window.addEventListener('scroll', this._boundScroll);
                 } else {
                     window.removeEventListener('scroll', this._boundScroll);
