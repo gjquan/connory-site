@@ -295,11 +295,11 @@
                         }
 
             svg { fill: #68826b; /* green */ }
-            svg .drawable {
+            svg .drawable * {
                 fill: none;
                 stroke: #68826b; /* green */
             }
-            svg .drawable.accent {
+            svg .drawable.accent * {
                 stroke: #827268; /* taupe */
             }
 
@@ -534,12 +534,14 @@
                                             C593.455,576.594,519.966,650.083,429.636,650.083z"/>
                                     </g>
                                 </g>
-                                <line class="drawable" fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" x1="306" y1="92.166" x2="306" y2="48.5"/>
-                                <line class="drawable" fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" x1="194.2" y1="126.207" x2="155.875" y2="87.881"/>
-                                <line class="drawable" fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" x1="417.65" y1="126.451" x2="455.755" y2="88.347"/>
-                                <line class="drawable" fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" x1="244.189" y1="102.296" x2="230.121" y2="68.333"/>
-                                <line class="drawable" fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" x1="370.811" y1="102.296" x2="384.88" y2="68.333"/>
-
+                                <g class="drawable">
+                                    <line fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" x1="306" y1="92.166" x2="306" y2="48.5"/>
+                                    <line fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" x1="194.2" y1="126.207" x2="155.875" y2="87.881"/>
+                                    <line fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" x1="417.65" y1="126.451" x2="455.755" y2="88.347"/>
+                                    <line fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" x1="244.189" y1="102.296" x2="230.121" y2="68.333"/>
+                                    <line fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" x1="370.811" y1="102.296" x2="384.88" y2="68.333"/>
+                                </g>
+                                </svg>
                             </div>
                             <h2>The Wedding</h2>
                             <dl>
@@ -577,11 +579,13 @@
                     <section id="directions">
                         <div class="image-heading">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 90 612 612">
-                            <path class="drawable accent" fill="none" stroke="#000000" stroke-width="15" stroke-linecap="round" d="M122.4,156.736
+                            <g class="drawable accent">
+                                <path fill="none" stroke="#000000" stroke-width="15" stroke-linecap="round" d="M122.4,156.736
                                 c-0.9,12.832-2.932,23.314,6.681,39.901c6.874,11.86,21.419,31.17,45.086,31.17c18.322,0,179.333,0,179.333,0s63,4.024,82,22.396
                                 c13.635,13.184,30.167,41.297,33.526,68.619c0,0,2.604,25.248-6.193,44.179c-6.085,13.091-25.79,22.292-31.333,26.499
                                 c-6.633,5.034-42.884,6.967-50.5,6.5c-49.667,0-119.547,1.062-132.003,2.429C220.066,401.597,186,457.709,181,471
                                 c-5.703,15.16-11.112,49.104,20.36,83.101c28.14,30.398,50.315,40.104,63.911,40.105l16.4,1.045"/>
+                            </g>
                             <g>
                                 <g>
                                     <path d="M72.747,95.102H61.2c-33.405,0-58.558,24.857-61.2,61.2V625.5c0,5.488,4.345,9.985,9.823,10.199c0.122,0,0.254,0,0.377,0
@@ -777,28 +781,25 @@
                                         C36.72,311.034,36.72,367.134,36.72,423.234z"/>
                                 </g>
                             </g>
-                            <g>
-                                <path class="drawable" fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M137.585,386.514
+                            <g class="drawable">
+                                <path fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M137.585,386.514
                                     c54.956-2.305,111.094,20.875,124.75,32.5"/>
-                                <path class="drawable" fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M137.585,454.512
+                                <path fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M137.585,454.512
                                     c63.915-2.68,102.134,13.25,124.75,32.5"/>
-                                <path class="drawable" fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M137.585,258.332
+                                <path fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M137.585,258.332
                                     c54.958-2.305,111.092,20.875,124.75,32.5"/>
-                                <path class="drawable" fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M137.585,323.33
+                                <path fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M137.585,323.33
                                     c54.957-2.305,111.092,20.875,124.75,32.5"/>
-                            </g>
-                            <g>
-                                <path class="drawable" fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M351.981,290.167
+                                <path fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M351.981,290.167
                                     c41.092-31.109,104.459-35.323,124.75-33.675"/>
-                                <path class="drawable" fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M351.982,355.82
+                                <path fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M351.982,355.82
                                     c41.092-31.109,104.459-35.323,124.75-33.675"/>
-                                <path class="drawable" fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M351.981,418.664
+                                <path fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M351.981,418.664
                                     c41.092-31.11,104.459-35.324,124.75-33.675"/>
-                                <path class="drawable" fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M351.981,484.32
+                                <path fill="none" stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-miterlimit="10" d="M351.981,484.32
                                     c41.092-31.109,104.459-35.323,124.75-33.675"/>
                             </g>
                             </svg>
-
                         </div>
                         <h2>The Story</h2>
                         <h3>The Beginning</h3>
@@ -830,18 +831,16 @@
                     <section id="faq">
                         <div class="image-heading">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 90 612 612">
-                            <g>
-                                <path class="drawable" fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" d="M194.5,445.451
+                            <g class="drawable">
+                                <path fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" d="M194.5,445.451
                                     c0,0,10.333,11.882,13,12.049S232,432,232,432"/>
-                                <path class="drawable" fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" d="M194.5,519.33
+                                <path fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" d="M194.5,519.33
                                     c0,0,10.333,11.882,13,12.049s24.5-25.5,24.5-25.5"/>
-                                <path class="drawable" fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" d="M194.5,593.51
+                                <path fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" d="M194.5,593.51
                                     c0,0,10.333,11.882,13,12.049s24.5-25.5,24.5-25.5"/>
-                            </g>
-                            <g>
-                                <line class="drawable" fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" x1="268.5" y1="445.451" x2="407" y2="445.451"/>
-                                <line class="drawable" fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" x1="268.5" y1="519.631" x2="343.086" y2="519.631"/>
-                                <line class="drawable" fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" x1="268.5" y1="593.809" x2="417.5" y2="593.809"/>
+                                <line fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" x1="268.5" y1="445.451" x2="407" y2="445.451"/>
+                                <line fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" x1="268.5" y1="519.631" x2="343.086" y2="519.631"/>
+                                <line fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" stroke-miterlimit="10" x1="268.5" y1="593.809" x2="417.5" y2="593.809"/>
                             </g>
                             <g>
                                 <g>
@@ -1204,20 +1203,23 @@
             /**
              * svg drawing on scroll
              */
-            var SVGAnimate = function SVGAnimate(svgElements) {
+            var SVGAnimate = function SVGAnimate(svgParentElements) {
                 this.CLASS_NAME_DRAWABLE = 'drawable';
                 this.PERCENTAGE_SCROLLED_WHEN_FULLY_DRAWN = 0.5;
 
-                svgElements = svgElements || document.getElementsByClassName('drawable');
-                this.svgElements = Array.prototype.slice.call(svgElements);
+                svgParentElements = svgParentElements || document.getElementsByClassName('drawable');
+                this.svgParentElements = Array.prototype.slice.call(svgParentElements);
 
                 this._animating = false;
             };
             SVGAnimate.prototype.init = function init() {
-                this.svgElements.forEach(function(element) {
-                    element.drawablePathLength = this._calculateDrawableLength(element);
-                    element.style.strokeDasharray = element.drawablePathLength;
-                    element.style.strokeDashoffset = element.drawablePathLength;
+                this.svgParentElements.forEach(function(parentElement) {
+                    parentElement.childrenArray = Array.prototype.slice.call(parentElement.children);
+                    parentElement.childrenArray.forEach(function(element) {
+                        element.drawablePathLength = this._calculateDrawableLength(element);
+                        element.style.strokeDasharray = element.drawablePathLength;
+                        element.style.strokeDashoffset = element.drawablePathLength;
+                    }.bind(this));
                 }.bind(this));
                 window.addEventListener('load', this._onload.bind(this));
                 window.addEventListener('resize', this._initPaths.bind(this));
@@ -1243,7 +1245,7 @@
                 var rect;
                 var parent;
 
-                this.svgElements.forEach(function(element) {
+                this.svgParentElements.forEach(function(element) {
                     parent = element.parentElement;
                     while (parent.offsetHeight === undefined) {
                         parent = parent.parentElement;
@@ -1253,9 +1255,9 @@
                     element.pageYOffset = rect.top + windowYOffset;
                 });
             };
-            SVGAnimate.prototype._calculatePathPercentage = function calculatePathPercentage(svgElement) {
-                var elementHeight = svgElement.htmlParent.offsetHeight;
-                var elementOffset = svgElement.pageYOffset;
+            SVGAnimate.prototype._calculatePathPercentage = function calculatePathPercentage(svgParentElement) {
+                var elementHeight = svgParentElement.htmlParent.offsetHeight;
+                var elementOffset = svgParentElement.pageYOffset;
                 var windowHeight = window.innerHeight;
                 var windowOffset = window.pageYOffset;
 
@@ -1284,10 +1286,12 @@
                 var pathPercentage;
                 var pathOffset;
 
-                this.svgElements.forEach(function(element) {
-                    pathPercentage = this._calculatePathPercentage(element);
-                    pathOffset = (1 - pathPercentage) * element.drawablePathLength;
-                    element.style.strokeDashoffset = pathOffset;
+                this.svgParentElements.forEach(function(parentElement) {
+                    pathPercentage = this._calculatePathPercentage(parentElement);
+                    parentElement.childrenArray.forEach(function(element) {
+                        pathOffset = (1 - pathPercentage) * element.drawablePathLength;
+                        element.style.strokeDashoffset = pathOffset;
+                    });
                 }.bind(this));
                 this._animating = false;
             };
