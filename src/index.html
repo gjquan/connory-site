@@ -262,7 +262,8 @@
                         width: 100%;
                         height: calc(100% * 5/13);
                         min-height: 300px;
-                        background: no-repeat 25%/cover url('images/connory-proposal-76.jpg');
+                        background: no-repeat 25%/cover url('images/connory-proposal-76-480.jpg');
+                        background: none;
                     }
                         .story-card.expanded .story-hero {
                             position: relative;
@@ -341,6 +342,10 @@
                     padding: 0 0.5em;
                     font-weight: 700;
                 }
+
+                .story-hero {
+                    /*background-image: url('images/connory-proposal-76-720.jpg');*/
+                }
             }
             @media screen and (min-width:40em) {
                 .hero h1 { top: 55%; }
@@ -361,6 +366,10 @@
                     width: 40%;
                 }
                     .image-inline.float-right { padding-left: 1em; }
+
+                .story-hero {
+                    /*background-image: url('images/connory-proposal-76.jpg');*/
+                }
             }
             @media screen and (min-width:48em) {
                 nav { text-align: center; }
@@ -1149,6 +1158,7 @@
                 this._boundScroll = this._onscroll.bind(this);
                 this._boundSetStickiness = this._setStickiness.bind(this);
                 this.toggleElement.addEventListener('click', this.destroy.bind(this));
+                this.menuElement.addEventListener('click', this._onNavClick.bind(this));
                 this.enable();
 
                 return this;
@@ -1189,6 +1199,19 @@
                 if (!this._animating) {
                     this._animating = true;
                     window.requestAnimationFrame(this._animate.bind(this));
+                }
+            };
+            StickyNav.prototype._onNavClick = function onNavClick(event) {
+                if(event.target.tagName.toLowerCase() === 'a') {
+                    var targetId = event.target.getAttribute('href').split('#')[1];
+                    var targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        event.preventDefault();
+                        var rect = targetElement.getBoundingClientRect();
+                        var targetYOffset = rect.top + window.pageYOffset;
+                        if (this._enabled) { targetYOffset -= this.menuElement.offsetHeight; }
+                        window.scrollTo({ top: targetYOffset, behavior: 'smooth' });
+                    }
                 }
             };
             StickyNav.prototype._setStickiness = function setStickiness() {
