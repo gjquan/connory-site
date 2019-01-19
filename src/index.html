@@ -1213,8 +1213,13 @@
                     var targetElement = document.getElementById(targetId);
                     if (targetElement) {
                         event.preventDefault();
-                        var rect = targetElement.getBoundingClientRect();
-                        var targetYOffset = rect.top + window.pageYOffset - this.height;
+                        var targetYOffset;
+                        if (targetElement === this.containerElement) {
+                            targetYOffset = 0;
+                        } else {
+                            var rect = targetElement.getBoundingClientRect();
+                            targetYOffset = rect.top + window.pageYOffset - this.height;
+                        }
                         window.scrollTo({ top: targetYOffset, behavior: 'smooth' });
                     }
                 }
