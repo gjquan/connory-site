@@ -1118,7 +1118,6 @@
             if(navigator.userAgent.match(/MSIE |Trident\/|Edge\//)) {
                 document.documentElement.classList.add('IE');
             }
-            var nativeScrollBehavior = 'scrollBehavior' in document.documentElement.style;
 
             /**
              * maps links for Apple devices
@@ -1137,6 +1136,7 @@
             var StickyNav = function StickyNav(menuElement, containerElement, toggleElement) {
                 this.CLASS_NAME_STICKY = 'sticky-nav';
                 this.MIN_STICKY_HEIGHT = 480;
+                this.SCROLL_TIME = 800;
 
                 this.menuElement = menuElement || document.getElementById('nav');
                 this.containerElement = containerElement || document.getElementById('header');
@@ -1147,6 +1147,7 @@
                 this._stickied = false;
                 this._boundScroll = null;
                 this._boundSetStickiness = null;
+                this._nativeScrollBehavior = 'scrollBehavior' in document.documentElement.style;
             };
             Object.defineProperties(StickyNav.prototype, {
                 height: {
@@ -1239,7 +1240,11 @@
                     var rect = targetElement.getBoundingClientRect();
                     targetYOffset = rect.top + window.pageYOffset - this.height;
                 }
-                window.scrollTo({ top: targetYOffset, behavior: 'smooth' });
+                if (this._nativeScrollBehavior) {
+                    window.scrollTo({ top: targetYOffset, behavior: 'smooth' });
+                } else {
+                    this._scrollStep(window.pageYOffset, targetYOffset, window.performance.now());
+                }
             };
             StickyNav.prototype._updateHash = function updateHash(targetId) {
                 var state = window.location.pathname + window.location.search; // existing location without hash
@@ -1251,6 +1256,22 @@
             StickyNav.prototype._setFocus = function setFocus(targetElement) {
                 if (targetElement) {
                     targetElement.focus({ preventScroll: true });
+                }
+            };
+            StickyNav.prototype._ease = function ease(val) {
+              return 0.5 * (1 - Math.cos(Math.PI * val));
+            };
+            StickyNav.prototype._scrollStep = function scrollStep(startY, targetY, startTime, scrollTime) {
+                scrollTime = scrollTime || this.SCROLL_TIME;
+                var currentTime = window.performance.now();
+                var elapsedTime = (currentTime - startTime) / scrollTime;
+                if (elapsedTime > 1) { elapsedTime = 1; }
+
+                var currentY = startY + (targetY - startY) * this._ease(elapsedTime);
+                window.scrollTo({ top: currentY });
+
+                if (currentY !== targetY) {
+                  window.requestAnimationFrame(this._scrollStep.bind(this, startY, targetY, startTime, scrollTime));
                 }
             };
 
