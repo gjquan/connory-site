@@ -1207,23 +1207,6 @@
                     }
                 }
             };
-            StickyNav.prototype._onNavClick = function onNavClick(event) {
-                if(event.target.tagName.toLowerCase() === 'a') {
-                    var targetId = event.target.getAttribute('href').split('#')[1];
-                    var targetElement = document.getElementById(targetId);
-                    if (targetElement) {
-                        event.preventDefault();
-                        var targetYOffset;
-                        if (targetElement === this.containerElement) {
-                            targetYOffset = 0;
-                        } else {
-                            var rect = targetElement.getBoundingClientRect();
-                            targetYOffset = rect.top + window.pageYOffset - this.height;
-                        }
-                        window.scrollTo({ top: targetYOffset, behavior: 'smooth' });
-                    }
-                }
-            };
             StickyNav.prototype._setStickiness = function setStickiness() {
                 if (window.innerHeight > this.MIN_STICKY_HEIGHT) {
                     this._boundScroll();
@@ -1231,6 +1214,43 @@
                 } else {
                     window.removeEventListener('scroll', this._boundScroll);
                     this.disableSticky.call(this);
+                }
+            };
+            StickyNav.prototype._onNavClick = function onNavClick(event) {
+                if(event.target.tagName.toLowerCase() === 'a') {
+                    var targetId = event.target.getAttribute('href').split('#')[1];
+                    var targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        event.preventDefault();
+                        if (targetElement === this.containerElement) {
+                            // return to top
+                            targetElement = null;
+                            targetId = null;
+                        }
+                        this._scrollToElement(targetElement);
+                        this._updateHash(targetId);
+                        this._setFocus(targetElement);
+                    }
+                }
+            };
+            StickyNav.prototype._scrollToElement = function scrollToElement(targetElement) {
+                var targetYOffset = 0;
+                if (targetElement) {
+                    var rect = targetElement.getBoundingClientRect();
+                    targetYOffset = rect.top + window.pageYOffset - this.height;
+                }
+                window.scrollTo({ top: targetYOffset, behavior: 'smooth' });
+            };
+            StickyNav.prototype._updateHash = function updateHash(targetId) {
+                var state = window.location.pathname + window.location.search; // existing location without hash
+                if (targetId) {
+                    state = '#' + targetId;
+                }
+                window.history.pushState({}, '', state);
+            };
+            StickyNav.prototype._setFocus = function setFocus(targetElement) {
+                if (targetElement) {
+                    targetElement.focus({ preventScroll: true });
                 }
             };
 
