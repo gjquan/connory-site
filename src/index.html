@@ -296,6 +296,9 @@
                             display: block;
                             z-index: 6;
                         }
+                        #story-card-hero.shrinking {
+                            z-index: 2;
+                        }
                         #story-card-image-link.story-card-active {
                             visibility: hidden;
                         }
@@ -1437,8 +1440,9 @@
                 this.PX = 'px';
                 this.CLASS_NAME_EXPANDED = 'expanded';
                 this.CLASS_NAME_RESIZING = 'resizing';
+                this.CLASS_NAME_SHRINKING = 'shrinking';
                 this.CLASS_NAME_STORY_ACTIVE = 'story-card-active';
-                this.ANIMATION_TIME_MS = 500;
+                this.ANIMATION_TIME_MS = 350;
                 this.onShow = onShow || function() {};
 
                 this._sectionId = sectionId || 'story-card';
@@ -1504,6 +1508,7 @@
                     sourceRect = heroPlaceholderRect;
                     destinationRect = imgRect;
                     translateMultiplier = 1;
+                    this._heroElement.classList.add(this.CLASS_NAME_SHRINKING);
                 }
 
                 this._heroElement.classList.add(this.CLASS_NAME_RESIZING);
@@ -1526,6 +1531,7 @@
                             this._sectionElement.classList.remove(this.CLASS_NAME_STORY_ACTIVE);
                         }
                         this._heroElement.classList.remove(this.CLASS_NAME_RESIZING);
+                        this._heroElement.classList.remove(this.CLASS_NAME_SHRINKING);
                         this._animating = false;
                     }.bind(this), this.ANIMATION_TIME_MS);
                 }.bind(this));
