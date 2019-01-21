@@ -290,6 +290,26 @@
                         .story-card.expanded .btn-close::before {
                             opacity: 1;
                         }
+                    #story-card-hero {
+                        position: absolute;
+                        display: none;
+                        transition: transform 0.25s ease, height 0.25s ease, width 0.25s ease;
+                    }
+                        #story-card-hero.resizing {
+                            position: fixed;
+                            display: block;
+                            z-index: 6;
+                        }
+                        #story-card-hero.shrinking {
+                            z-index: 2;
+                        }
+                        #story-card-image-link.story-card-active {
+                            visibility: hidden;
+                        }
+                    .story-hero,
+                    #story-card-hero {
+                        background: no-repeat 25%/cover url('images/connory-proposal-76-480.jpg');
+                    }
                     .story-hero {
                         position: relative;
                         top: 0;
@@ -297,10 +317,10 @@
                         width: 100%;
                         height: calc(100% * 5/13);
                         min-height: 300px;
-                        background: no-repeat 25%/cover url('images/connory-proposal-76-480.jpg');
+                        visibility: hidden;
                     }
-                        .story-card.expanded .story-hero {
-                            position: relative;
+                        .story-card.story-card-active .story-hero {
+                            visibility: visible;
                         }
                         .story-hero h1 {
                             font: 0/0 a;
@@ -377,7 +397,8 @@
                     font-weight: 700;
                 }
 
-                .story-hero {
+                .story-hero,
+                #story-card-hero {
                     background-image: url('images/connory-proposal-76-720.jpg');
                 }
             }
@@ -402,7 +423,8 @@
                 }
                     .image-inline.float-right { padding-left: 1em; }
 
-                .story-hero {
+                .story-hero,
+                #story-card-hero {
                     background-image: url('images/connory-proposal-76.jpg');
                 }
             }
@@ -436,7 +458,10 @@
             @media screen and (min-width: 60em) {
                 .story-card {
                     overflow-y: inherit;
+                    top: 0;
+                    left: 150%;
                 }
+                    .story-card.expanded { transform: translateX(-150%); }
                     .story-hero {
                         position: absolute;
                         width: calc(100% * 5/13);
@@ -453,7 +478,8 @@
                     }
             }
             @media screen and (min-width:60em) and (max-aspect-ratio: 4/3) {
-                .story-hero {
+                .story-hero,
+                #story-card-hero {
                     background-position: 30% top;
                 }
             }
@@ -867,7 +893,7 @@
                             <p>After their first day ring shopping, Connie had picked out a preliminary favorite, which happened to be the first engagement ring she tried on. The following weekend, Connie was travelng for work, so Greg sneakily ordered the ring while she was away and started to brainstorm proposal ideas. He wanted to involve their closest friends and family in the proposal and celebration. He enlisted the help of Connie's close friends Stef, Rox, and Ashley, as well as Greg's close friends Norvelle, Estella, and Jeremiah, to create a special day for Connie.</p>
                             <a href="#story-card" id="story-toggle">
                                 <p class="text-center"><strong>Read the full story</strong></p>
-                                <img src="images/connory-proposal-76.jpg" alt="Greg proposing to Connie" width="1620" height="1080"
+                                <img id="story-card-image-link" src="images/connory-proposal-76.jpg" alt="Greg proposing to Connie" width="1620" height="1080"
                                      srcset="images/connory-proposal-76.jpg 2000w, images/connory-proposal-76-720.jpg 1000w, images/connory-proposal-76-480.jpg 750w" />
                             </a>
                     </section>
@@ -977,10 +1003,11 @@
                  srcset="images/redwoods.jpg 2000w, images/redwoods-720.jpg 1000w, images/redwoods-480.jpg 750w" />
         </div>
 
+        <div id="story-card-hero"></div>
         <div id="story-card" class="story-card">
             <div id="story-card-toggle" class="btn-close"><br />Close</div>
             <div class="story-card-scrollable">
-                <header class="story-hero">
+                <header class="story-hero" id="story-card-hero-placeholder">
                     <h1>The Connory Story</h1>
                 </header>
                 <div class="story-card-content" id="story-card-content" tabindex="-1">
@@ -1418,15 +1445,29 @@
             /**
              * story toggle
              */
-            var StoryToggle = function StoryToggle(sectionId, showElement, hideElement, scrollableElement, onShow) {
+            var StoryToggle = function StoryToggle(sectionId, elements, onShow) {
+                elements = elements || {};
+
+                this.PX = 'px';
                 this.CLASS_NAME_EXPANDED = 'expanded';
+                this.CLASS_NAME_RESIZING = 'resizing';
+                this.CLASS_NAME_SHRINKING = 'shrinking';
+                this.CLASS_NAME_STORY_ACTIVE = 'story-card-active';
+                this.ANIMATION_TIME_MS = 350;
+                this.PERCENTAGE_OFFSCREEN = 150;
                 this.onShow = onShow || function() {};
 
                 this._sectionId = sectionId || 'story-card';
                 this._sectionElement = document.getElementById(this._sectionId);
-                this._showElement = showElement || document.getElementById('story-toggle');
-                this._hideElement = hideElement || document.getElementById('story-card-toggle');
-                this._scrollableElement = scrollableElement || document.getElementById('story-card-content');
+                this._showElement = elements.showElement || document.getElementById('story-toggle');
+                this._hideElement = elements.hideElement || document.getElementById('story-card-toggle');
+                this._scrollableElement = elements.scrollableElement || document.getElementById('story-card-content');
+
+                this._imageLink = elements.imageLink || document.getElementById('story-card-image-link');
+                this._heroElement = elements.heroElement || document.getElementById('story-card-hero');
+                this._heroPlaceholderElement = elements.heroPlaceholderElement || document.getElementById('story-card-hero-placeholder');
+
+                this._animating = false;
             };
             StoryToggle.prototype.init = function init() {
                 this._showElement.addEventListener('click', this._showStoryCard.bind(this));
@@ -1443,6 +1484,7 @@
                 }
             };
             StoryToggle.prototype._showStoryCard = function showStoryCard() {
+                this._resizeHero(true);
                 this._sectionElement.classList.add(this.CLASS_NAME_EXPANDED);
                 // TODO: investigate arrow key scrolling when the card is not initially loaded
                 this._scrollableElement.focus({ preventScroll: true });
@@ -1450,11 +1492,70 @@
                 this.onShow();
             };
             StoryToggle.prototype._hideStoryCard = function showStoryCard() {
+                this._resizeHero(false);
                 this._sectionElement.classList.remove(this.CLASS_NAME_EXPANDED);
                 this._removeHash();
             };
             StoryToggle.prototype._removeHash = function removeHash() {
                 history.pushState({}, document.title, window.location.pathname + window.location.search);
+            };
+            StoryToggle.prototype._resizeHero = function resizeHero(expandHero) {
+                if (this._animating) {
+                    return;
+                }
+
+                var expanding = expandHero === true;
+                var imgRect = this._imageLink.getBoundingClientRect();
+                var heroPlaceholderRect = this._heroPlaceholderElement.getBoundingClientRect();
+                var sourceRect;
+                var destinationRect;
+                var translateMultiplier;
+
+                // check if hero would not be on screen when expanded
+                if (heroPlaceholderRect.top + heroPlaceholderRect.height < 0 ||
+                    (heroPlaceholderRect.top > 0 && heroPlaceholderRect.top < window.innerHeight * this.PERCENTAGE_OFFSCREEN / 100)) {
+                    this._imageLink.classList.remove(this.CLASS_NAME_STORY_ACTIVE);
+                    this._sectionElement.classList.add(this.CLASS_NAME_STORY_ACTIVE);
+                    return;
+                }
+
+                if (expanding) {
+                    sourceRect = imgRect;
+                    destinationRect = heroPlaceholderRect;
+                    translateMultiplier = -1;
+                } else {
+                    sourceRect = heroPlaceholderRect;
+                    destinationRect = imgRect;
+                    translateMultiplier = 1;
+                    this._heroElement.classList.add(this.CLASS_NAME_SHRINKING);
+                }
+
+                this._animating = true;
+                this._heroElement.classList.add(this.CLASS_NAME_RESIZING);
+                this._heroElement.style.top = sourceRect.top + this.PX;
+                this._heroElement.style.left = sourceRect.left + this.PX;
+                this._heroElement.style.width = sourceRect.width + this.PX;
+                this._heroElement.style.height = sourceRect.height + this.PX;
+
+                window.requestAnimationFrame(function() {
+                    this._imageLink.classList.add(this.CLASS_NAME_STORY_ACTIVE);
+                    this._sectionElement.classList.remove(this.CLASS_NAME_STORY_ACTIVE);
+                    this._heroElement.style.transform = 'translate(' +
+                        translateMultiplier * imgRect.left + this.PX + ',' + translateMultiplier * imgRect.top + this.PX + ')';
+                    //  use width and height so the image doesn't jump around while translating
+                    this._heroElement.style.height = destinationRect.height + this.PX;
+                    this._heroElement.style.width = destinationRect.width + this.PX;
+                    setTimeout(function() {
+                        if (expanding) {
+                            this._sectionElement.classList.add(this.CLASS_NAME_STORY_ACTIVE);
+                        } else {
+                            this._imageLink.classList.remove(this.CLASS_NAME_STORY_ACTIVE);
+                        }
+                        this._heroElement.classList.remove(this.CLASS_NAME_RESIZING);
+                        this._heroElement.classList.remove(this.CLASS_NAME_SHRINKING);
+                        this._animating = false;
+                    }.bind(this), this.ANIMATION_TIME_MS);
+                }.bind(this));
             };
 
             /**
