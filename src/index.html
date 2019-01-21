@@ -1443,6 +1443,7 @@
                 this.CLASS_NAME_SHRINKING = 'shrinking';
                 this.CLASS_NAME_STORY_ACTIVE = 'story-card-active';
                 this.ANIMATION_TIME_MS = 350;
+                this.PERCENTAGE_OFFSCREEN = 150;
                 this.onShow = onShow || function() {};
 
                 this._sectionId = sectionId || 'story-card';
@@ -1492,13 +1493,20 @@
                     return;
                 }
 
-                this._animating = true;
                 var expanding = expandHero === true;
                 var imgRect = this._imageLink.getBoundingClientRect();
                 var heroPlaceholderRect = this._heroPlaceholderElement.getBoundingClientRect();
                 var sourceRect;
                 var destinationRect;
                 var translateMultiplier;
+
+                // check if hero would not be on screen when expanded
+                if (heroPlaceholderRect.top + heroPlaceholderRect.height < 0 ||
+                    (heroPlaceholderRect.top > 0 && heroPlaceholderRect.top < window.innerHeight * this.PERCENTAGE_OFFSCREEN / 100)) {
+                    this._imageLink.classList.remove(this.CLASS_NAME_STORY_ACTIVE);
+                    this._sectionElement.classList.add(this.CLASS_NAME_STORY_ACTIVE);
+                    return;
+                }
 
                 if (expanding) {
                     sourceRect = imgRect;
@@ -1511,6 +1519,7 @@
                     this._heroElement.classList.add(this.CLASS_NAME_SHRINKING);
                 }
 
+                this._animating = true;
                 this._heroElement.classList.add(this.CLASS_NAME_RESIZING);
                 this._heroElement.style.top = sourceRect.top + this.PX;
                 this._heroElement.style.left = sourceRect.left + this.PX;
@@ -1518,8 +1527,9 @@
                 this._heroElement.style.height = sourceRect.height + this.PX;
 
                 window.requestAnimationFrame(function() {
-                    this._heroElement.style.transform = // 'scale(' + scaleX + ',' + scaleY +')' +
-                                           'translate(' + translateMultiplier * imgRect.left + this.PX + ',' + translateMultiplier * imgRect.top + this.PX + ')';
+                    this._heroElement.style.transform = 'translate(' +
+                        translateMultiplier * imgRect.left + this.PX + ',' + translateMultiplier * imgRect.top + this.PX + ')';
+                    // just use width and height so we don't have to factor in the scale when translating
                     this._heroElement.style.height = destinationRect.height + this.PX;
                     this._heroElement.style.width = destinationRect.width + this.PX;
                     setTimeout(function() {
