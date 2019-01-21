@@ -1299,7 +1299,7 @@
                 if (elapsedTime > 1) { elapsedTime = 1; }
 
                 var currentY = startY + (targetY - startY) * this._ease(elapsedTime);
-                window.scrollTo({ top: currentY });
+                window.scrollTo(0, currentY);
 
                 if (currentY !== targetY) {
                   window.requestAnimationFrame(this._scrollStep.bind(this, startY, targetY, startTime, scrollTime));
