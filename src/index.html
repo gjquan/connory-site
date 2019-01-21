@@ -458,7 +458,10 @@
             @media screen and (min-width: 60em) {
                 .story-card {
                     overflow-y: inherit;
+                    top: 0;
+                    left: 150%;
                 }
+                    .story-card.expanded { transform: translateX(-150%); }
                     .story-hero {
                         position: absolute;
                         width: calc(100% * 5/13);
@@ -1536,9 +1539,10 @@
 
                 window.requestAnimationFrame(function() {
                     this._imageLink.classList.add(this.CLASS_NAME_STORY_ACTIVE);
+                    this._sectionElement.classList.remove(this.CLASS_NAME_STORY_ACTIVE);
                     this._heroElement.style.transform = 'translate(' +
                         translateMultiplier * imgRect.left + this.PX + ',' + translateMultiplier * imgRect.top + this.PX + ')';
-                    // just use width and height so we don't have to factor in the scale when translating
+                    //  use width and height so the image doesn't jump around while translating
                     this._heroElement.style.height = destinationRect.height + this.PX;
                     this._heroElement.style.width = destinationRect.width + this.PX;
                     setTimeout(function() {
@@ -1546,7 +1550,6 @@
                             this._sectionElement.classList.add(this.CLASS_NAME_STORY_ACTIVE);
                         } else {
                             this._imageLink.classList.remove(this.CLASS_NAME_STORY_ACTIVE);
-                            this._sectionElement.classList.remove(this.CLASS_NAME_STORY_ACTIVE);
                         }
                         this._heroElement.classList.remove(this.CLASS_NAME_RESIZING);
                         this._heroElement.classList.remove(this.CLASS_NAME_SHRINKING);
