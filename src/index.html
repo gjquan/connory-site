@@ -291,12 +291,11 @@
                             opacity: 1;
                         }
                     #story-card-hero {
-                        position: absolute;
+                        position: fixed;
                         display: none;
                         transition: transform 0.25s ease, height 0.25s ease, width 0.25s ease;
                     }
                         #story-card-hero.resizing {
-                            position: fixed;
                             display: block;
                             z-index: 6;
                         }
@@ -1536,6 +1535,7 @@
                 this._heroElement.style.left = sourceRect.left + this.PX;
                 this._heroElement.style.width = sourceRect.width + this.PX;
                 this._heroElement.style.height = sourceRect.height + this.PX;
+                this._heroElement.style.transform = '';
 
                 window.requestAnimationFrame(function() {
                     this._imageLink.classList.add(this.CLASS_NAME_STORY_ACTIVE);
