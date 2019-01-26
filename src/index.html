@@ -1006,7 +1006,7 @@
         <div id="story-card-hero"></div>
         <div id="story-card" class="story-card">
             <div id="story-card-toggle" class="btn-close"><br />Close</div>
-            <div class="story-card-scrollable">
+            <div class="story-card-scrollable" id="story-card-scrollable">
                 <header class="story-hero" id="story-card-hero-placeholder">
                     <h1>The Connory Story</h1>
                 </header>
@@ -1461,8 +1461,9 @@
                 this._sectionElement = document.getElementById(this._sectionId);
                 this._showElement = elements.showElement || document.getElementById('story-toggle');
                 this._hideElement = elements.hideElement || document.getElementById('story-card-toggle');
-                this._scrollableElement = elements.scrollableElement || document.getElementById('story-card-content');
+                this._contentElement = elements.contentElement || document.getElementById('story-card-content');
 
+                this._scrollableElement = elements.scrollableElement || document.getElementById('story-card-scrollable');
                 this._imageLink = elements.imageLink || document.getElementById('story-card-image-link');
                 this._heroElement = elements.heroElement || document.getElementById('story-card-hero');
                 this._heroPlaceholderElement = elements.heroPlaceholderElement || document.getElementById('story-card-hero-placeholder');
@@ -1487,7 +1488,7 @@
                 this._resizeHero(true);
                 this._sectionElement.classList.add(this.CLASS_NAME_EXPANDED);
                 // TODO: investigate arrow key scrolling when the card is not initially loaded
-                this._scrollableElement.focus({ preventScroll: true });
+                this._contentElement.focus({ preventScroll: true });
 
                 this.onShow();
             };
@@ -1507,13 +1508,18 @@
                 var expanding = expandHero === true;
                 var imgRect = this._imageLink.getBoundingClientRect();
                 var heroPlaceholderRect = this._heroPlaceholderElement.getBoundingClientRect();
+                var heroIsScrollable = this._heroIsScrollable();
+                var translateRect;
+                var translateMultiplier;
                 var sourceRect;
                 var destinationRect;
-                var translateMultiplier;
 
-                // check if hero would not be on screen when expanded
-                if (heroPlaceholderRect.top + heroPlaceholderRect.height < 0 ||
-                    (heroPlaceholderRect.top > 0 && heroPlaceholderRect.top < window.innerHeight * this.PERCENTAGE_OFFSCREEN / 100)) {
+                // check if hero is not on screen when expanded
+                if (heroIsScrollable &&
+                        (heroPlaceholderRect.bottom < 0 ||
+                        heroPlaceholderRect.height < this._scrollableElement.scrollTop ||
+                        (heroPlaceholderRect.top > 0 &&
+                            heroPlaceholderRect.bottom < window.innerHeight * this.PERCENTAGE_OFFSCREEN / 100))) {
                     this._imageLink.classList.remove(this.CLASS_NAME_STORY_ACTIVE);
                     this._sectionElement.classList.add(this.CLASS_NAME_STORY_ACTIVE);
                     return;
@@ -1530,6 +1536,11 @@
                     this._heroElement.classList.add(this.CLASS_NAME_SHRINKING);
                 }
 
+                translateRect = { top: imgRect.top, left: imgRect.left };
+                if (heroIsScrollable) {
+                    translateRect.top += this._scrollableElement.scrollTop;
+                }
+
                 this._animating = true;
                 this._heroElement.classList.add(this.CLASS_NAME_RESIZING);
                 this._heroElement.style.top = sourceRect.top + this.PX;
@@ -1542,7 +1553,8 @@
                     this._imageLink.classList.add(this.CLASS_NAME_STORY_ACTIVE);
                     this._sectionElement.classList.remove(this.CLASS_NAME_STORY_ACTIVE);
                     this._heroElement.style.transform = 'translate(' +
-                        translateMultiplier * imgRect.left + this.PX + ',' + translateMultiplier * imgRect.top + this.PX + ')';
+                        translateMultiplier * translateRect.left + this.PX + ',' +
+                        translateMultiplier * translateRect.top + this.PX + ')';
                     //  use width and height so the image doesn't jump around while translating
                     this._heroElement.style.height = destinationRect.height + this.PX;
                     this._heroElement.style.width = destinationRect.width + this.PX;
@@ -1557,6 +1569,9 @@
                         this._animating = false;
                     }.bind(this), this.ANIMATION_TIME_MS);
                 }.bind(this));
+            };
+            StoryToggle.prototype._heroIsScrollable = function heroIsScrollable() {
+                return window.getComputedStyle(this._heroPlaceholderElement).getPropertyValue('position') !== 'fixed';
             };
 
             /**
