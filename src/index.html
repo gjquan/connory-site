@@ -28,8 +28,8 @@
                 font-family: Bookman, 'Bookman Old Style', Garamond, Palatino, 'Times New Roman', Times, serif;
             }
                 a { color: #827268; /* taupe */ }
-                h1, h2 { text-align: center; }
-                h2 { font-family: 'Rancho'; font-size: 2em; }
+                h1, h2, h3.title { text-align: center; }
+                h2, h3.title { font-family: 'Rancho'; font-size: 2em; }
                 hr { display: none; }
                 img { max-width: 100%; height: auto; }
                 div:focus, img:focus { outline: none; }
@@ -245,6 +245,10 @@
                     text-align: justify;
                 }
 
+                #story-toggle {
+                    position: relative;
+                    display: block;
+                }
                 .story-card {
                     position: fixed;
                     top: 150%;
@@ -290,6 +294,14 @@
                         }
                         .story-card.expanded .btn-close::before {
                             opacity: 1;
+                        }
+                    .story-card-title {
+                        position: absolute;
+                        width: 100%;
+                        margin-top: 0.25em;
+                    }
+                        #story-toggle.expanded .story-card-title {
+                            visibility: hidden;
                         }
                     #story-card-hero {
                         position: fixed;
@@ -423,6 +435,9 @@
                 }
                     .image-inline.float-right { padding-left: 1em; }
 
+                .story-card-title {
+                        margin-top: 0.5em;
+                }
                 .story-hero,
                 #story-card-hero {
                     background-image: url('images/connory-proposal-76.jpg');
@@ -892,7 +907,7 @@
                         <h3>The Proposal</h3>
                             <p>After their first day ring shopping, Connie had picked out a preliminary favorite, which happened to be the first engagement ring she tried on. The following weekend, Connie was traveling for work, so Greg sneakily ordered the ring while she was away and started to brainstorm proposal ideas. He wanted to involve their closest friends and family in the proposal and celebration. He enlisted the help of Connie's close friends Stef, Rox, and Ashley, as well as Greg's close friends Norvelle, Estella, and Jeremiah, to create a special day for Connie.</p>
                             <a href="#story-card" id="story-toggle">
-                                <p class="text-center"><strong>Read the full story</strong></p>
+                                <h3 class="text-center title story-card-title"><strong>Read the Full Story</strong></h3>
                                 <img id="story-card-image-link" src="images/connory-proposal-76.jpg" alt="Greg proposing to Connie" width="1620" height="1080"
                                      srcset="images/connory-proposal-76.jpg 2000w, images/connory-proposal-76-720.jpg 1000w, images/connory-proposal-76-480.jpg 750w" />
                             </a>
@@ -1486,6 +1501,7 @@
             };
             StoryToggle.prototype._showStoryCard = function showStoryCard() {
                 this._resizeHero(true);
+                this._showElement.classList.add(this.CLASS_NAME_EXPANDED);
                 this._sectionElement.classList.add(this.CLASS_NAME_EXPANDED);
                 // TODO: investigate arrow key scrolling when the card is not initially loaded
                 this._contentElement.focus({ preventScroll: true });
@@ -1563,6 +1579,7 @@
                             this._sectionElement.classList.add(this.CLASS_NAME_STORY_ACTIVE);
                         } else {
                             this._imageLink.classList.remove(this.CLASS_NAME_STORY_ACTIVE);
+                            this._showElement.classList.remove(this.CLASS_NAME_EXPANDED);
                         }
                         this._heroElement.classList.remove(this.CLASS_NAME_RESIZING);
                         this._heroElement.classList.remove(this.CLASS_NAME_SHRINKING);
