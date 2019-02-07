@@ -1541,6 +1541,7 @@
                             heroPlaceholderRect.bottom < window.innerHeight * this.PERCENTAGE_OFFSCREEN / 100))) {
                     this._imageLink.classList.remove(this.CLASS_NAME_STORY_ACTIVE);
                     this._sectionElement.classList.add(this.CLASS_NAME_STORY_ACTIVE);
+                    this._showElement.classList.remove(this.CLASS_NAME_EXPANDED);
                     return;
                 }
 
